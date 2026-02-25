@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neobo – Lediga lägenheter</title>
+  <title>Neobo – Available Apartments</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -90,72 +90,72 @@
 </head>
 <body>
 <header>
-  <h1>Neobo &ndash; Lediga lägenheter</h1>
-  <p class="subtitle">Senast hämtad 2026-02-25 20:34 &bull; 7 veckosnapshot(s) i databasen</p>
+  <h1>Neobo &ndash; Available Apartments</h1>
+  <p class="subtitle">Last updated 2026-02-25 20:40 &bull; 8 snapshot(s) in database</p>
 </header>
 
 <div class="container">
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="label">Antal lägenheter</div>
+      <div class="label">Available Apartments</div>
       <div class="value">217</div>
-      <div class="unit">lediga objekt</div>
+      <div class="unit">active listings</div>
     </div>
     <div class="stat-card">
-      <div class="label">Total yta</div>
+      <div class="label">Total Area</div>
       <div class="value">13 903</div>
-      <div class="unit">kvadratmeter</div>
+      <div class="unit">square metres</div>
     </div>
     <div class="stat-card">
-      <div class="label">Total månadshyra</div>
+      <div class="label">Total Monthly Rent</div>
       <div class="value">1 774 650</div>
-      <div class="unit">kr / månad</div>
+      <div class="unit">SEK / month</div>
     </div>
     <div class="stat-card">
-      <div class="label">Snitthydra per kvm</div>
+      <div class="label">Avg Rent per sqm</div>
       <div class="value">132</div>
-      <div class="unit">kr / kvm &amp; månad</div>
+      <div class="unit">SEK / sqm &amp; month</div>
     </div>
   </div>
 
   
   <div class="charts-row">
     <div class="chart-card">
-      <h3>Antal lediga lägenheter per vecka</h3>
+      <h3>Available apartments per snapshot</h3>
       <canvas id="countChart" height="120"></canvas>
     </div>
     <div class="chart-card">
-      <h3>Genomsnittlig hyra (kr/kvm) per vecka</h3>
+      <h3>Average rent (SEK/sqm) per snapshot</h3>
       <canvas id="rentChart" height="120"></canvas>
     </div>
   </div>
   
 
   <div class="diff-section">
-    <h2>Ändringar sedan förra hämtningen</h2>
+    <h2>Changes since last snapshot</h2>
     <div class="diff-boxes">
-      <p class="no-diff">Inga ändringar sedan förra hämtningen.</p>
+      <p class="no-diff">No changes since last snapshot.</p>
     </div>
   </div>
 
   <div class="table-section">
-    <h2>Alla lägenheter (217 st)</h2>
+    <h2>All Apartments (217)</h2>
     <div class="table-wrapper">
       <div class="search-bar">
-        <input type="text" id="search" placeholder="Sök på adress, stad eller kommun…" oninput="filterTable()">
+        <input type="text" id="search" placeholder="Search by address, city or municipality…" oninput="filterTable()">
       </div>
       <div class="table-scroll">
         <table id="listings-table">
           <thead>
             <tr>
               <th onclick="sortTable(0)">#</th>
-              <th onclick="sortTable(1)">Adress</th>
-              <th onclick="sortTable(2)">Stad</th>
-              <th onclick="sortTable(3)">Kommun</th>
-              <th onclick="sortTable(4)">Rum</th>
-              <th onclick="sortTable(5)">Yta (kvm)</th>
-              <th onclick="sortTable(6)">Hyra (kr/mån)</th>
-              <th onclick="sortTable(7)">kr/kvm</th>
+              <th onclick="sortTable(1)">Address</th>
+              <th onclick="sortTable(2)">City</th>
+              <th onclick="sortTable(3)">Municipality</th>
+              <th onclick="sortTable(4)">Rooms</th>
+              <th onclick="sortTable(5)">Size (sqm)</th>
+              <th onclick="sortTable(6)">Rent (SEK/mo)</th>
+              <th onclick="sortTable(7)">SEK/sqm</th>
             </tr>
           </thead>
           <tbody id="table-body">
@@ -378,31 +378,31 @@
 <tr class="odd"><td>217</td><td><a href="https://www.homeq.se/lagenhet/237054" target="_blank" rel="noopener">Järvstagatan 18 U</a></td><td>Örnsköldsvik</td><td>Örnsköldsvik</td><td>1</td><td>35</td><td>5 571</td><td>159</td></tr>
           </tbody>
         </table>
-        <div class="no-results" id="no-results">Inga lägenheter matchar sökningen.</div>
+        <div class="no-results" id="no-results">No apartments match your search.</div>
       </div>
     </div>
   </div>
 </div>
 
 <footer>
-  Data hämtad från <a href="https://www.neobo.se/sv/ledigt/lagenheter/" target="_blank">neobo.se</a>
+  Data from <a href="https://www.neobo.se/sv/ledigt/lagenheter/" target="_blank">neobo.se</a>
   &bull; Databas: /home/rossi/neobo.db
 </footer>
 
 <script>
-  const labels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25"]; const counts=[199, 199, 199, 217, 217, 217, 217]; const rents=[131.1, 131.1, 131.1, 132.4, 132.4, 132.4, 132.4];
+  const labels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25"]; const counts=[199, 199, 199, 217, 217, 217, 217, 217]; const rents=[131.1, 131.1, 131.1, 132.4, 132.4, 132.4, 132.4, 132.4];
   
   const purple = 'rgba(109,45,135,0.85)';
   const purpleLight = 'rgba(109,45,135,0.15)';
   new Chart(document.getElementById('countChart'), {
     type: 'line',
-    data: { labels, datasets: [{ label: 'Lägenheter', data: counts,
+    data: { labels, datasets: [{ label: 'Apartments', data: counts,
       borderColor: purple, backgroundColor: purpleLight, tension: 0.3, fill: true, pointRadius: 4 }] },
     options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
   });
   new Chart(document.getElementById('rentChart'), {
     type: 'line',
-    data: { labels, datasets: [{ label: 'kr/kvm', data: rents,
+    data: { labels, datasets: [{ label: 'SEK/sqm', data: rents,
       borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', tension: 0.3, fill: true, pointRadius: 4 }] },
     options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
   });
