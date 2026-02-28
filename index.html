@@ -3,165 +3,184 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Neobo – Available Apartments</title>
+  <title>Neobo Property Tracker</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: #f4f1f8; color: #1a1a2e; min-height: 100vh; }
+
     header { background: linear-gradient(135deg, #3b0f4f 0%, #6d2d87 100%);
-              color: #fff; padding: 2rem 2.5rem 1.5rem; }
+              color: #fff; padding: 1.5rem 2.5rem 1rem; }
     header h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -.5px; }
-    header p.subtitle { margin-top: .25rem; opacity: .75; font-size: .9rem; }
+    header p  { margin-top: .25rem; opacity: .75; font-size: .88rem; }
+
+    /* Type toggle */
+    .type-bar { background: #fff; border-bottom: 2px solid #e8dff0;
+                 display: flex; gap: 0; padding: 0 2.5rem; }
+    .type-btn { padding: .75rem 1.75rem; border: none; background: none; cursor: pointer;
+                 font-size: .95rem; font-weight: 600; color: #888;
+                 border-bottom: 3px solid transparent; margin-bottom: -2px; transition: .15s; }
+    .type-btn.active { color: #6d2d87; border-bottom-color: #6d2d87; }
+    .type-btn:hover:not(.active) { color: #3b0f4f; background: #faf7fd; }
+    .type-btn .pill { display: inline-block; background: #ede4f5; color: #6d2d87;
+                       font-size: .7rem; font-weight: 700; padding: .1em .45em;
+                       border-radius: 10px; margin-left: .35rem; }
+    .type-btn.active .pill { background: #6d2d87; color: #fff; }
+
+    .type-view { display: none; }
+    .type-view.active { display: block; }
+
     .container { max-width: 1400px; margin: 0 auto; padding: 0 2.5rem; }
-    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                   gap: 1.25rem; padding: 2rem 0; }
+
+    /* Stats */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+                   gap: 1.25rem; padding: 2rem 0 1.5rem; }
     .stat-card { background: #fff; border-radius: 12px; padding: 1.5rem;
                   box-shadow: 0 2px 8px rgba(59,15,79,.08); border-top: 4px solid #6d2d87; }
-    .stat-card .label { font-size: .75rem; font-weight: 600; text-transform: uppercase;
-                         letter-spacing: .06em; color: #7a7a8c; margin-bottom: .5rem; }
+    .stat-card .label { font-size: .72rem; font-weight: 600; text-transform: uppercase;
+                         letter-spacing: .06em; color: #7a7a8c; margin-bottom: .4rem; }
     .stat-card .value { font-size: 2rem; font-weight: 700; color: #3b0f4f; line-height: 1; }
-    .stat-card .unit  { font-size: .85rem; color: #7a7a8c; margin-top: .3rem; }
+    .stat-card .unit  { font-size: .82rem; color: #7a7a8c; margin-top: .3rem; }
 
     /* Charts */
     .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 2rem; }
-    .chart-card  { background: #fff; border-radius: 12px; padding: 1.25rem;
-                    box-shadow: 0 2px 8px rgba(59,15,79,.08); }
-    .chart-card h3 { font-size: .85rem; font-weight: 600; color: #3b0f4f;
-                      text-transform: uppercase; letter-spacing: .05em; margin-bottom: .75rem; }
+    .chart-card { background: #fff; border-radius: 12px; padding: 1.25rem 1.5rem;
+                   box-shadow: 0 2px 8px rgba(59,15,79,.08); }
+    .chart-card h3 { font-size: .8rem; font-weight: 600; text-transform: uppercase;
+                      letter-spacing: .05em; color: #3b0f4f; margin-bottom: .75rem; }
 
     /* Diff */
     .diff-section { margin-bottom: 2rem; }
-    .diff-section h2 { font-size: 1.1rem; font-weight: 600; color: #3b0f4f; margin-bottom: .75rem; }
+    .diff-section h2 { font-size: 1.05rem; font-weight: 600; color: #3b0f4f; margin-bottom: .75rem; }
     .diff-boxes { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .diff-box { flex: 1; min-width: 220px; background: #fff; border-radius: 12px; padding: 1rem 1.25rem;
-                 box-shadow: 0 2px 8px rgba(59,15,79,.08); }
-    .diff-box h3 { font-size: .9rem; font-weight: 600; margin-bottom: .5rem; }
-    .diff-box ul  { padding-left: 1.1rem; font-size: .82rem; color: #333; line-height: 1.7; }
-    .new-box     { border-left: 4px solid #22c55e; }
-    .new-box h3  { color: #16a34a; }
-    .removed-box { border-left: 4px solid #ef4444; }
-    .removed-box h3 { color: #dc2626; }
-    .relisted-box { border-left: 4px solid #3b82f6; }
-    .relisted-box h3 { color: #2563eb; }
-    .changed-box { border-left: 4px solid #f59e0b; }
-    .changed-box h3 { color: #d97706; }
-    .no-diff { color: #888; font-size: .9rem; padding: .5rem 0; }
+    .diff-box { flex: 1; min-width: 220px; background: #fff; border-radius: 12px;
+                 padding: 1rem 1.25rem; box-shadow: 0 2px 8px rgba(59,15,79,.08); }
+    .diff-box h3 { font-size: .88rem; font-weight: 600; margin-bottom: .5rem; }
+    .diff-box ul  { padding-left: 1.1rem; font-size: .8rem; color: #333; line-height: 1.7; }
+    .new-box      { border-left: 4px solid #22c55e; } .new-box h3      { color: #16a34a; }
+    .relisted-box { border-left: 4px solid #3b82f6; } .relisted-box h3 { color: #2563eb; }
+    .removed-box  { border-left: 4px solid #ef4444; } .removed-box h3  { color: #dc2626; }
+    .changed-box  { border-left: 4px solid #f59e0b; } .changed-box h3  { color: #d97706; }
+    .no-diff { color: #888; font-size: .88rem; padding: .5rem 0; }
 
     /* Table */
     .table-section { margin-bottom: 3rem; }
-    .table-section h2 { font-size: 1.1rem; font-weight: 600; color: #3b0f4f; margin-bottom: 1rem; }
-    .table-wrapper { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(59,15,79,.08); overflow: hidden; }
+    .table-section h2 { font-size: 1.05rem; font-weight: 600; color: #3b0f4f; margin-bottom: 1rem; }
+    .table-wrapper { background: #fff; border-radius: 12px;
+                      box-shadow: 0 2px 8px rgba(59,15,79,.08); overflow: hidden; }
     .search-bar { padding: 1rem 1.25rem; border-bottom: 1px solid #f0eaf5; }
     .search-bar input { width: 100%; max-width: 360px; padding: .5rem .85rem;
-                         border: 1px solid #ddd; border-radius: 8px; font-size: .9rem;
+                         border: 1px solid #ddd; border-radius: 8px; font-size: .88rem;
                          outline: none; transition: border-color .2s; }
     .search-bar input:focus { border-color: #6d2d87; }
     .table-scroll { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: .875rem; }
-    thead th { background: #f9f6fc; padding: .75rem 1rem; text-align: left;
+    table { width: 100%; border-collapse: collapse; font-size: .85rem; }
+    thead th { background: #f9f6fc; padding: .7rem 1rem; text-align: left;
                 font-weight: 600; color: #3b0f4f; white-space: nowrap;
                 cursor: pointer; user-select: none; border-bottom: 2px solid #e8dff0; }
     thead th:hover { background: #f0e8f8; }
-    thead th::after { content: " ↕"; opacity: .35; font-size: .75em; }
-    thead th.asc::after  { content: " ↑"; opacity: 1; }
+    thead th::after { content: " ↕"; opacity: .3; font-size: .75em; }
+    thead th.asc::after { content: " ↑"; opacity: 1; }
     thead th.desc::after { content: " ↓"; opacity: 1; }
     tbody tr.odd  { background: #fff; }
     tbody tr.even { background: #fdfbff; }
     tbody tr:hover { background: #f3ecfb; }
-    tbody td { padding: .65rem 1rem; border-bottom: 1px solid #f0eaf5; vertical-align: middle; }
-    tbody td:nth-child(1) { color: #aaa; font-size: .78rem; width: 3rem; }
-    tbody td:nth-child(6), tbody td:nth-child(7), tbody td:nth-child(8)
-      { text-align: right; font-variant-numeric: tabular-nums; }
-    .badge { display: inline-block; padding: .15em .45em; border-radius: 4px;
-              font-size: .68rem; font-weight: 700; vertical-align: middle;
-              margin-left: .35rem; }
+    tbody td { padding: .6rem 1rem; border-bottom: 1px solid #f0eaf5; vertical-align: middle; }
+    tbody td:nth-child(1) { color: #bbb; font-size: .75rem; width: 3rem; }
+    .apt-table  tbody td:nth-child(6),
+    .apt-table  tbody td:nth-child(7),
+    .apt-table  tbody td:nth-child(8) { text-align: right; font-variant-numeric: tabular-nums; }
+    .com-table  tbody td:nth-child(5) { text-align: right; font-variant-numeric: tabular-nums; }
+    .badge { display: inline-block; padding: .12em .4em; border-radius: 4px;
+              font-size: .66rem; font-weight: 700; vertical-align: middle; margin-left: .3rem; }
     .badge.new { background: #dcfce7; color: #15803d; }
+    .no-results { padding: 2rem; text-align: center; color: #aaa; display: none; }
     a { color: #6d2d87; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    .no-results { padding: 2rem; text-align: center; color: #aaa; display: none; }
-    footer { text-align: center; padding: 1.5rem; font-size: .78rem; color: #aaa; }
+    footer { text-align: center; padding: 1.5rem; font-size: .75rem; color: #aaa; }
     @media (max-width: 700px) {
-      .container { padding: 0 1rem; }
+      .container, header, .type-bar { padding-left: 1rem; padding-right: 1rem; }
       .charts-row { grid-template-columns: 1fr; }
       .stat-card .value { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
+
 <header>
-  <h1>Neobo &ndash; Available Apartments</h1>
-  <p class="subtitle">Last updated 2026-02-28 09:49 &bull; 9 snapshot(s) in database</p>
+  <h1>Neobo Property Tracker</h1>
+  <p>Last updated 2026-02-28 10:01 &bull; <a href="changes.html" style="color:rgba(255,255,255,.8)">View change log →</a></p>
 </header>
 
-<div class="container">
-  <div class="stats-grid">
-    <div class="stat-card">
-      <div class="label">Available Apartments</div>
-      <div class="value">219</div>
-      <div class="unit">active listings</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Total Area</div>
-      <div class="value">13 978</div>
-      <div class="unit">square metres</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Total Monthly Rent</div>
-      <div class="value">1 786 772</div>
-      <div class="unit">SEK / month</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Avg Rent per sqm</div>
-      <div class="value">132</div>
-      <div class="unit">SEK / sqm &amp; month</div>
-    </div>
-  </div>
+<div class="type-bar">
+  <button class="type-btn active" onclick="switchType('apt', this)">
+    Apartments <span class="pill">219</span>
+  </button>
+  <button class="type-btn" onclick="switchType('com', this)">
+    Commercial <span class="pill">56</span>
+  </button>
+</div>
 
-  
-  <div class="charts-row">
-    <div class="chart-card">
-      <h3>Available apartments per snapshot</h3>
-      <canvas id="countChart" height="120"></canvas>
-    </div>
-    <div class="chart-card">
-      <h3>Average rent (SEK/sqm) per snapshot</h3>
-      <canvas id="rentChart" height="120"></canvas>
-    </div>
-  </div>
-  
-
-  <div class="diff-section">
-    <h2>Changes since last snapshot</h2>
-    <div class="diff-boxes">
-      <div class="diff-box new-box"><h3>+18 new apartments</h3><ul><li><a href="https://www.homeq.se/lagenhet/240663" target="_blank">Fröjas väg 9 B</a> — Nynäshamn, 40.0 kvm, 7 089 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240623" target="_blank">Västra Åpromenaden 22 B</a> — Köping, 32.0 kvm, 3 171 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240780" target="_blank">Pilvägen 3 I</a> — Skövde, 38.4 kvm, 6 150 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240897" target="_blank">Navestadsgatan 22</a> — Norrköping, 49.0 kvm, 8 197 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240737" target="_blank">Bregårdsgatan 12 A</a> — Karlskoga, 65.0 kvm, 9 279 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240638" target="_blank">Västra Bergsgatan 7 B</a> — Tranås, 50.5 kvm, 5 586 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240783" target="_blank">Västra Grevilligatan 10</a> — Mariestad, 65.0 kvm, 6 464 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240587" target="_blank">Ollenicklas väg 29</a> — Vänersborg, 66.0 kvm, 8 360 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240694" target="_blank">Fröjas väg 9 B</a> — Nynäshamn, 67.0 kvm, 9 715 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240512" target="_blank">Staffansvägen 1 B</a> — Knivsta, 45.0 kvm, 8 927 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240571" target="_blank">Badstugatan 6 A</a> — Karlskoga, 70.5 kvm, 6 574 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240493" target="_blank">Fredsgatan 5 A</a> — Katrineholm, 82.0 kvm, 10 972 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240519" target="_blank">Runebergsgatan 48 e</a> — Nyköping, 82.0 kvm, 11 421 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240755" target="_blank">Agneshögsgatan 39 A</a> — Motala, 81.0 kvm, 8 443 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240948" target="_blank">Mossgatan 143</a> — Karlstad, 80.5 kvm, 11 087 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240521" target="_blank">Agneshögsgatan 31 A</a> — Motala, 81.0 kvm, 10 452 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240574" target="_blank">Fredsgatan 5 B</a> — Katrineholm, 100.0 kvm, 12 020 kr/mån</li><li><a href="https://www.homeq.se/lagenhet/240894" target="_blank">Navestadsgatan 4</a> — Norrköping, 104.0 kvm, 14 067 kr/mån</li></ul></div>
-<div class="diff-box removed-box"><h3>−16 removed apartments</h3><ul><li>Majorsgatan 13 B — Sundsvall, 38.0 sqm</li><li>Mjölnervägen 9 A — Sundsvall, 27.0 sqm</li><li>Fridhemsgatan 27 — Oskarshamn, 37.0 sqm</li><li>Torggatan 28B — Enköping, 37.0 sqm</li><li>Fridhemsgatan 15B — Oskarshamn, 55.0 sqm</li><li>Sundsgatan 24B — Vänersborg, 71.0 sqm</li><li>Fredsgatan 19 B — Sundsvall, 68.0 sqm</li><li>Runebergsgatan 44 F — Nyköping, 49.0 sqm</li><li>Runebergsgatan 46 a — Nyköping, 82.0 sqm</li><li>Gersnäsgatan 1 C — Katrineholm, 74.2 sqm</li><li>Norra Fabriksgatan 8 — Oskarshamn, 107.0 sqm</li><li>Torget 4A — Staffanstorp, 83.0 sqm</li><li>Stora Kvarngatan 10 — Malmö, 78.0 sqm</li><li>Agneshögsgatan 39 A — Motala, 81.0 sqm</li><li>Navestadsgatan 10 — Norrköping, 104.0 sqm</li><li>Eriksbergsvägen 9 B — Katrineholm, 132.5 sqm</li></ul></div>
-<div class="diff-box changed-box"><h3>7 rent changes</h3><ul><li>Mossebogatan 8B — Sommen: 3 125 → 3 237 SEK/mo</li><li>Runebergsgatan 44 B — Nyköping: 9 138 → 8 883 SEK/mo</li><li>Runebergsgatan 44 A — Nyköping: 8 699 → 8 948 SEK/mo</li><li>Mossebogatan 6A — Sommen: 5 913 → 6 120 SEK/mo</li><li>Mossebogatan 8A — Sommen: 5 570 → 5 776 SEK/mo</li><li>Lilla Sveagatan 1 A — Tranås: 6 257 → 6 482 SEK/mo</li><li>Nygatan 24 — Tranås: 10 386 → 10 760 SEK/mo</li></ul></div>
-    </div>
-  </div>
-
-  <div class="table-section">
-    <h2>All Apartments (219)</h2>
-    <div class="table-wrapper">
-      <div class="search-bar">
-        <input type="text" id="search" placeholder="Search by address, city or municipality…" oninput="filterTable()">
+<!-- ── APARTMENTS ── -->
+<div id="view-apt" class="type-view active">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Available Apartments</div>
+        <div class="value">219</div>
+        <div class="unit">active listings</div>
       </div>
-      <div class="table-scroll">
-        <table id="listings-table">
-          <thead>
-            <tr>
-              <th onclick="sortTable(0)">#</th>
-              <th onclick="sortTable(1)">Address</th>
-              <th onclick="sortTable(2)">City</th>
-              <th onclick="sortTable(3)">Municipality</th>
-              <th onclick="sortTable(4)">Rooms</th>
-              <th onclick="sortTable(5)">Size (sqm)</th>
-              <th onclick="sortTable(6)">Rent (SEK/mo)</th>
-              <th onclick="sortTable(7)">SEK/sqm</th>
-            </tr>
-          </thead>
-          <tbody id="table-body">
-<tr class="odd"><td>1</td><td><a href="https://www.homeq.se/lagenhet/237160" target="_blank" rel="noopener">Rävstigen 8</a></td><td>Enköping</td><td>Enköping</td><td>4</td><td>92</td><td>12 160</td><td>133</td></tr>
+      <div class="stat-card">
+        <div class="label">Total Area</div>
+        <div class="value">13 978</div>
+        <div class="unit">square metres</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Total Monthly Rent</div>
+        <div class="value">1 786 772</div>
+        <div class="unit">SEK / month</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Avg Rent per sqm</div>
+        <div class="value">132</div>
+        <div class="unit">SEK / sqm &amp; month</div>
+      </div>
+    </div>
+
+    
+    <div class="charts-row">
+      <div class="chart-card"><h3>Available apartments per snapshot</h3>
+        <canvas id="aptCountChart" height="120"></canvas></div>
+      <div class="chart-card"><h3>Average rent (SEK/sqm) per snapshot</h3>
+        <canvas id="aptRentChart" height="120"></canvas></div>
+    </div>
+
+    <div class="diff-section">
+      <h2>Changes since last snapshot</h2>
+      <div class="diff-boxes"><p class="no-diff">No changes since last snapshot.</p></div>
+    </div>
+
+    <div class="table-section">
+      <h2>All Apartments (219)</h2>
+      <div class="table-wrapper">
+        <div class="search-bar">
+          <input type="text" id="apt-search" placeholder="Search by address, city or municipality…"
+                 oninput="filterTable('apt-body', this.value, 'apt-noresults')">
+        </div>
+        <div class="table-scroll">
+          <table class="apt-table">
+            <thead><tr>
+              <th onclick="sortTable('apt-body',0)">#</th>
+              <th onclick="sortTable('apt-body',1)">Address</th>
+              <th onclick="sortTable('apt-body',2)">City</th>
+              <th onclick="sortTable('apt-body',3)">Municipality</th>
+              <th onclick="sortTable('apt-body',4)">Rooms</th>
+              <th onclick="sortTable('apt-body',5)">Size (sqm)</th>
+              <th onclick="sortTable('apt-body',6)">Rent (SEK/mo)</th>
+              <th onclick="sortTable('apt-body',7)">SEK/sqm</th>
+            </tr></thead>
+            <tbody id="apt-body"><tr class="odd"><td>1</td><td><a href="https://www.homeq.se/lagenhet/237160" target="_blank" rel="noopener">Rävstigen 8</a></td><td>Enköping</td><td>Enköping</td><td>4</td><td>92</td><td>12 160</td><td>133</td></tr>
 <tr class="even"><td>2</td><td><a href="https://www.homeq.se/lagenhet/230993" target="_blank" rel="noopener">Heljestrandsgatan 5 C</a></td><td>Eskilstuna</td><td>Eskilstuna</td><td>2</td><td>53</td><td>8 383</td><td>158</td></tr>
 <tr class="odd"><td>3</td><td><a href="https://www.homeq.se/lagenhet/233516" target="_blank" rel="noopener">Heljestrandsgatan 7 A</a></td><td>Eskilstuna</td><td>Eskilstuna</td><td>2</td><td>53</td><td>8 690</td><td>164</td></tr>
 <tr class="even"><td>4</td><td><a href="https://www.homeq.se/lagenhet/239757" target="_blank" rel="noopener">Falegatan 5 A</a></td><td>Falköping</td><td>Falköping</td><td>1</td><td>26</td><td>5 136</td><td>195</td></tr>
@@ -183,22 +202,22 @@
 <tr class="even"><td>20</td><td><a href="https://www.homeq.se/lagenhet/231439" target="_blank" rel="noopener">Södra Stenbocksgatan 104B</a></td><td>Helsingborg</td><td>Helsingborg</td><td>2</td><td>52</td><td>8 449</td><td>162</td></tr>
 <tr class="odd"><td>21</td><td><a href="https://www.homeq.se/lagenhet/238586" target="_blank" rel="noopener">Tranemansgatan 1</a></td><td>Helsingborg</td><td>Helsingborg</td><td>2</td><td>72</td><td>8 888</td><td>123</td></tr>
 <tr class="even"><td>22</td><td><a href="https://www.homeq.se/lagenhet/238836" target="_blank" rel="noopener">Tryckerigatan 19</a></td><td>Helsingborg</td><td>Helsingborg</td><td>2</td><td>56</td><td>8 413</td><td>150</td></tr>
-<tr class="odd"><td>23</td><td><a href="https://www.homeq.se/lagenhet/240571" target="_blank" rel="noopener">Badstugatan 6 A</a> <span class="badge new">NEW</span></td><td>Karlskoga</td><td>Karlskoga</td><td>2</td><td>70</td><td>6 574</td><td>93</td></tr>
-<tr class="even"><td>24</td><td><a href="https://www.homeq.se/lagenhet/240737" target="_blank" rel="noopener">Bregårdsgatan 12 A</a> <span class="badge new">NEW</span></td><td>Karlskoga</td><td>Karlskoga</td><td>2</td><td>65</td><td>9 279</td><td>143</td></tr>
+<tr class="odd"><td>23</td><td><a href="https://www.homeq.se/lagenhet/240571" target="_blank" rel="noopener">Badstugatan 6 A</a></td><td>Karlskoga</td><td>Karlskoga</td><td>2</td><td>70</td><td>6 574</td><td>93</td></tr>
+<tr class="even"><td>24</td><td><a href="https://www.homeq.se/lagenhet/240737" target="_blank" rel="noopener">Bregårdsgatan 12 A</a></td><td>Karlskoga</td><td>Karlskoga</td><td>2</td><td>65</td><td>9 279</td><td>143</td></tr>
 <tr class="odd"><td>25</td><td><a href="https://www.homeq.se/lagenhet/239923" target="_blank" rel="noopener">Mineralvägen 11 C</a></td><td>Karlskoga</td><td>Karlskoga</td><td>2</td><td>61</td><td>8 901</td><td>146</td></tr>
 <tr class="even"><td>26</td><td><a href="https://www.homeq.se/lagenhet/238045" target="_blank" rel="noopener">Mossgatan 117</a></td><td>Karlstad</td><td>Karlstad</td><td>3</td><td>80</td><td>8 519</td><td>106</td></tr>
 <tr class="odd"><td>27</td><td><a href="https://www.homeq.se/lagenhet/236050" target="_blank" rel="noopener">Mossgatan 127</a></td><td>Karlstad</td><td>Karlstad</td><td>3</td><td>89</td><td>9 653</td><td>108</td></tr>
 <tr class="even"><td>28</td><td><a href="https://www.homeq.se/lagenhet/238910" target="_blank" rel="noopener">Mossgatan 131 A</a></td><td>Karlstad</td><td>Karlstad</td><td>2</td><td>55</td><td>7 059</td><td>129</td></tr>
 <tr class="odd"><td>29</td><td><a href="https://www.homeq.se/lagenhet/237423" target="_blank" rel="noopener">Mossgatan 137</a></td><td>Karlstad</td><td>Karlstad</td><td>2</td><td>70</td><td>9 751</td><td>140</td></tr>
-<tr class="even"><td>30</td><td><a href="https://www.homeq.se/lagenhet/240948" target="_blank" rel="noopener">Mossgatan 143</a> <span class="badge new">NEW</span></td><td>Karlstad</td><td>Karlstad</td><td>3</td><td>80</td><td>11 087</td><td>138</td></tr>
+<tr class="even"><td>30</td><td><a href="https://www.homeq.se/lagenhet/240948" target="_blank" rel="noopener">Mossgatan 143</a></td><td>Karlstad</td><td>Karlstad</td><td>3</td><td>80</td><td>11 087</td><td>138</td></tr>
 <tr class="odd"><td>31</td><td><a href="https://www.homeq.se/lagenhet/234450" target="_blank" rel="noopener">Mossgatan 145</a></td><td>Karlstad</td><td>Karlstad</td><td>2</td><td>70</td><td>7 775</td><td>112</td></tr>
 <tr class="even"><td>32</td><td><a href="https://www.homeq.se/lagenhet/240095" target="_blank" rel="noopener">Mossgatan 161</a></td><td>Karlstad</td><td>Karlstad</td><td>4</td><td>102</td><td>10 271</td><td>100</td></tr>
 <tr class="odd"><td>33</td><td><a href="https://www.homeq.se/lagenhet/238957" target="_blank" rel="noopener">Mossgatan 163</a></td><td>Karlstad</td><td>Karlstad</td><td>3</td><td>89</td><td>11 985</td><td>135</td></tr>
 <tr class="even"><td>34</td><td><a href="https://www.homeq.se/lagenhet/239457" target="_blank" rel="noopener">Bievägen 9 A</a></td><td>Katrineholm</td><td>Katrineholm</td><td>3</td><td>75</td><td>10 218</td><td>136</td></tr>
 <tr class="odd"><td>35</td><td><a href="https://www.homeq.se/lagenhet/239156" target="_blank" rel="noopener">Bievägen 9 B</a></td><td>Katrineholm</td><td>Katrineholm</td><td>2</td><td>54</td><td>5 364</td><td>99</td></tr>
 <tr class="even"><td>36</td><td><a href="https://www.homeq.se/lagenhet/239475" target="_blank" rel="noopener">Bievägen 9 B</a></td><td>Katrineholm</td><td>Katrineholm</td><td>3</td><td>75</td><td>7 735</td><td>103</td></tr>
-<tr class="odd"><td>37</td><td><a href="https://www.homeq.se/lagenhet/240493" target="_blank" rel="noopener">Fredsgatan 5 A</a> <span class="badge new">NEW</span></td><td>Katrineholm</td><td>Katrineholm</td><td>3</td><td>82</td><td>10 972</td><td>134</td></tr>
-<tr class="even"><td>38</td><td><a href="https://www.homeq.se/lagenhet/240574" target="_blank" rel="noopener">Fredsgatan 5 B</a> <span class="badge new">NEW</span></td><td>Katrineholm</td><td>Katrineholm</td><td>4</td><td>100</td><td>12 020</td><td>120</td></tr>
+<tr class="odd"><td>37</td><td><a href="https://www.homeq.se/lagenhet/240493" target="_blank" rel="noopener">Fredsgatan 5 A</a></td><td>Katrineholm</td><td>Katrineholm</td><td>3</td><td>82</td><td>10 972</td><td>134</td></tr>
+<tr class="even"><td>38</td><td><a href="https://www.homeq.se/lagenhet/240574" target="_blank" rel="noopener">Fredsgatan 5 B</a></td><td>Katrineholm</td><td>Katrineholm</td><td>4</td><td>100</td><td>12 020</td><td>120</td></tr>
 <tr class="odd"><td>39</td><td><a href="https://www.homeq.se/lagenhet/234325" target="_blank" rel="noopener">Gersnäsgatan 1 A</a></td><td>Katrineholm</td><td>Katrineholm</td><td>1</td><td>40</td><td>5 378</td><td>134</td></tr>
 <tr class="even"><td>40</td><td><a href="https://www.homeq.se/lagenhet/240531" target="_blank" rel="noopener">Gersnäsgatan 1 A</a></td><td>Katrineholm</td><td>Katrineholm</td><td>4</td><td>89</td><td>8 967</td><td>101</td></tr>
 <tr class="odd"><td>41</td><td><a href="https://www.homeq.se/lagenhet/235419" target="_blank" rel="noopener">Gersnäsgatan 1 C</a></td><td>Katrineholm</td><td>Katrineholm</td><td>1</td><td>41</td><td>4 847</td><td>119</td></tr>
@@ -207,7 +226,7 @@
 <tr class="even"><td>44</td><td><a href="https://www.homeq.se/lagenhet/237454" target="_blank" rel="noopener">Kapellgatan 5 C</a></td><td>Katrineholm</td><td>Katrineholm</td><td>3</td><td>70</td><td>7 705</td><td>110</td></tr>
 <tr class="odd"><td>45</td><td><a href="https://www.homeq.se/lagenhet/239892" target="_blank" rel="noopener">Nyhemsgatan 25 A</a></td><td>Katrineholm</td><td>Katrineholm</td><td>3</td><td>77</td><td>8 873</td><td>115</td></tr>
 <tr class="even"><td>46</td><td><a href="https://www.homeq.se/lagenhet/235525" target="_blank" rel="noopener">Tegnérvägen 33 B</a></td><td>Katrineholm</td><td>Katrineholm</td><td>2</td><td>77</td><td>9 222</td><td>120</td></tr>
-<tr class="odd"><td>47</td><td><a href="https://www.homeq.se/lagenhet/240512" target="_blank" rel="noopener">Staffansvägen 1 B</a> <span class="badge new">NEW</span></td><td>Knivsta</td><td>Knivsta</td><td>2</td><td>45</td><td>8 927</td><td>198</td></tr>
+<tr class="odd"><td>47</td><td><a href="https://www.homeq.se/lagenhet/240512" target="_blank" rel="noopener">Staffansvägen 1 B</a></td><td>Knivsta</td><td>Knivsta</td><td>2</td><td>45</td><td>8 927</td><td>198</td></tr>
 <tr class="even"><td>48</td><td><a href="https://www.homeq.se/lagenhet/219157" target="_blank" rel="noopener">Esplanaden 5 A</a></td><td>Köping</td><td>Köping</td><td>3</td><td>68</td><td>8 620</td><td>127</td></tr>
 <tr class="odd"><td>49</td><td><a href="https://www.homeq.se/lagenhet/228476" target="_blank" rel="noopener">Esplanaden 5 B</a></td><td>Köping</td><td>Köping</td><td>1</td><td>36</td><td>6 348</td><td>176</td></tr>
 <tr class="even"><td>50</td><td><a href="https://www.homeq.se/lagenhet/228095" target="_blank" rel="noopener">Esplanaden 5 B</a></td><td>Köping</td><td>Köping</td><td>2</td><td>53</td><td>6 140</td><td>116</td></tr>
@@ -222,7 +241,7 @@
 <tr class="odd"><td>59</td><td><a href="https://www.homeq.se/lagenhet/232557" target="_blank" rel="noopener">Västeråsvägen 9 A</a></td><td>Köping</td><td>Köping</td><td>2</td><td>71</td><td>7 418</td><td>104</td></tr>
 <tr class="even"><td>60</td><td><a href="https://www.homeq.se/lagenhet/228107" target="_blank" rel="noopener">Västra Åpromenaden 22 A</a></td><td>Köping</td><td>Köping</td><td>2</td><td>53</td><td>6 122</td><td>116</td></tr>
 <tr class="odd"><td>61</td><td><a href="https://www.homeq.se/lagenhet/196746" target="_blank" rel="noopener">Västra Åpromenaden 22 A</a></td><td>Köping</td><td>Köping</td><td>4</td><td>95</td><td>10 351</td><td>109</td></tr>
-<tr class="even"><td>62</td><td><a href="https://www.homeq.se/lagenhet/240623" target="_blank" rel="noopener">Västra Åpromenaden 22 B</a> <span class="badge new">NEW</span></td><td>Köping</td><td>Köping</td><td>1</td><td>32</td><td>3 171</td><td>99</td></tr>
+<tr class="even"><td>62</td><td><a href="https://www.homeq.se/lagenhet/240623" target="_blank" rel="noopener">Västra Åpromenaden 22 B</a></td><td>Köping</td><td>Köping</td><td>1</td><td>32</td><td>3 171</td><td>99</td></tr>
 <tr class="odd"><td>63</td><td><a href="https://www.homeq.se/lagenhet/220970" target="_blank" rel="noopener">Västra Åpromenaden 22 B</a></td><td>Köping</td><td>Köping</td><td>3</td><td>81</td><td>8 441</td><td>104</td></tr>
 <tr class="even"><td>64</td><td><a href="https://www.homeq.se/lagenhet/227475" target="_blank" rel="noopener">Östra Långgatan 17 A</a></td><td>Köping</td><td>Köping</td><td>3</td><td>61</td><td>7 190</td><td>118</td></tr>
 <tr class="odd"><td>65</td><td><a href="https://www.homeq.se/lagenhet/240039" target="_blank" rel="noopener">Östra Långgatan 17 A</a></td><td>Köping</td><td>Köping</td><td>4</td><td>94</td><td>12 516</td><td>133</td></tr>
@@ -230,18 +249,18 @@
 <tr class="odd"><td>67</td><td><a href="https://www.homeq.se/lagenhet/238634" target="_blank" rel="noopener">Sandbäcksvägen 68</a></td><td>Mariestad</td><td>Mariestad</td><td>3</td><td>70</td><td>10 469</td><td>150</td></tr>
 <tr class="even"><td>68</td><td><a href="https://www.homeq.se/lagenhet/239941" target="_blank" rel="noopener">Sandbäcksvägen 70</a></td><td>Mariestad</td><td>Mariestad</td><td>3</td><td>59</td><td>9 889</td><td>168</td></tr>
 <tr class="odd"><td>69</td><td><a href="https://www.homeq.se/lagenhet/238632" target="_blank" rel="noopener">Sandbäcksvägen 72</a></td><td>Mariestad</td><td>Mariestad</td><td>2</td><td>53</td><td>6 919</td><td>131</td></tr>
-<tr class="even"><td>70</td><td><a href="https://www.homeq.se/lagenhet/240783" target="_blank" rel="noopener">Västra Grevilligatan 10</a> <span class="badge new">NEW</span></td><td>Mariestad</td><td>Mariestad</td><td>2</td><td>65</td><td>6 464</td><td>99</td></tr>
+<tr class="even"><td>70</td><td><a href="https://www.homeq.se/lagenhet/240783" target="_blank" rel="noopener">Västra Grevilligatan 10</a></td><td>Mariestad</td><td>Mariestad</td><td>2</td><td>65</td><td>6 464</td><td>99</td></tr>
 <tr class="odd"><td>71</td><td><a href="https://www.homeq.se/lagenhet/240224" target="_blank" rel="noopener">Agneshögsgatan 31 A</a></td><td>Motala</td><td>Motala</td><td>4</td><td>108</td><td>13 030</td><td>121</td></tr>
-<tr class="even"><td>72</td><td><a href="https://www.homeq.se/lagenhet/240521" target="_blank" rel="noopener">Agneshögsgatan 31 A</a> <span class="badge new">NEW</span></td><td>Motala</td><td>Motala</td><td>4</td><td>81</td><td>10 452</td><td>129</td></tr>
+<tr class="even"><td>72</td><td><a href="https://www.homeq.se/lagenhet/240521" target="_blank" rel="noopener">Agneshögsgatan 31 A</a></td><td>Motala</td><td>Motala</td><td>4</td><td>81</td><td>10 452</td><td>129</td></tr>
 <tr class="odd"><td>73</td><td><a href="https://www.homeq.se/lagenhet/197894" target="_blank" rel="noopener">Agneshögsgatan 33 A</a></td><td>Motala</td><td>Motala</td><td>4</td><td>81</td><td>10 838</td><td>134</td></tr>
 <tr class="even"><td>74</td><td><a href="https://www.homeq.se/lagenhet/203180" target="_blank" rel="noopener">Agneshögsgatan 33 C</a></td><td>Motala</td><td>Motala</td><td>1</td><td>51</td><td>7 140</td><td>140</td></tr>
-<tr class="odd"><td>75</td><td><a href="https://www.homeq.se/lagenhet/240755" target="_blank" rel="noopener">Agneshögsgatan 39 A</a> <span class="badge new">NEW</span></td><td>Motala</td><td>Motala</td><td>3</td><td>81</td><td>8 443</td><td>104</td></tr>
+<tr class="odd"><td>75</td><td><a href="https://www.homeq.se/lagenhet/240755" target="_blank" rel="noopener">Agneshögsgatan 39 A</a></td><td>Motala</td><td>Motala</td><td>3</td><td>81</td><td>8 443</td><td>104</td></tr>
 <tr class="even"><td>76</td><td><a href="https://www.homeq.se/lagenhet/231034" target="_blank" rel="noopener">Agneshögsgatan 41 D</a></td><td>Motala</td><td>Motala</td><td>1</td><td>41</td><td>6 515</td><td>159</td></tr>
 <tr class="odd"><td>77</td><td><a href="https://www.homeq.se/lagenhet/197873" target="_blank" rel="noopener">Agneshögsgatan 43 D</a></td><td>Motala</td><td>Motala</td><td>3</td><td>85</td><td>10 781</td><td>127</td></tr>
 <tr class="even"><td>78</td><td><a href="https://www.homeq.se/lagenhet/232703" target="_blank" rel="noopener">Agneshögsgatan 53 D</a></td><td>Motala</td><td>Motala</td><td>2</td><td>41</td><td>6 791</td><td>166</td></tr>
 <tr class="odd"><td>79</td><td><a href="https://www.homeq.se/lagenhet/231274" target="_blank" rel="noopener">Agneshögsgatan 55 C</a></td><td>Motala</td><td>Motala</td><td>2</td><td>41</td><td>6 858</td><td>167</td></tr>
-<tr class="even"><td>80</td><td><a href="https://www.homeq.se/lagenhet/240897" target="_blank" rel="noopener">Navestadsgatan 22</a> <span class="badge new">NEW</span></td><td>Norrköping</td><td>Norrköping</td><td>2</td><td>49</td><td>8 197</td><td>167</td></tr>
-<tr class="odd"><td>81</td><td><a href="https://www.homeq.se/lagenhet/240894" target="_blank" rel="noopener">Navestadsgatan 4</a> <span class="badge new">NEW</span></td><td>Norrköping</td><td>Norrköping</td><td>4</td><td>104</td><td>14 067</td><td>135</td></tr>
+<tr class="even"><td>80</td><td><a href="https://www.homeq.se/lagenhet/240897" target="_blank" rel="noopener">Navestadsgatan 22</a></td><td>Norrköping</td><td>Norrköping</td><td>2</td><td>49</td><td>8 197</td><td>167</td></tr>
+<tr class="odd"><td>81</td><td><a href="https://www.homeq.se/lagenhet/240894" target="_blank" rel="noopener">Navestadsgatan 4</a></td><td>Norrköping</td><td>Norrköping</td><td>4</td><td>104</td><td>14 067</td><td>135</td></tr>
 <tr class="even"><td>82</td><td><a href="https://www.homeq.se/lagenhet/236338" target="_blank" rel="noopener">Runebergsgatan 44 A</a></td><td>Nyköping</td><td>Nyköping</td><td>2</td><td>53</td><td>8 699</td><td>164</td></tr>
 <tr class="odd"><td>83</td><td><a href="https://www.homeq.se/lagenhet/239394" target="_blank" rel="noopener">Runebergsgatan 44 A</a></td><td>Nyköping</td><td>Nyköping</td><td>2</td><td>53</td><td>8 948</td><td>169</td></tr>
 <tr class="even"><td>84</td><td><a href="https://www.homeq.se/lagenhet/237500" target="_blank" rel="noopener">Runebergsgatan 44 B</a></td><td>Nyköping</td><td>Nyköping</td><td>2</td><td>55</td><td>8 883</td><td>162</td></tr>
@@ -252,11 +271,11 @@
 <tr class="odd"><td>89</td><td><a href="https://www.homeq.se/lagenhet/227912" target="_blank" rel="noopener">Runebergsgatan 46 e</a></td><td>Nyköping</td><td>Nyköping</td><td>3</td><td>90</td><td>12 110</td><td>135</td></tr>
 <tr class="even"><td>90</td><td><a href="https://www.homeq.se/lagenhet/236539" target="_blank" rel="noopener">Runebergsgatan 46 f</a></td><td>Nyköping</td><td>Nyköping</td><td>3</td><td>82</td><td>11 421</td><td>139</td></tr>
 <tr class="odd"><td>91</td><td><a href="https://www.homeq.se/lagenhet/237268" target="_blank" rel="noopener">Runebergsgatan 48 b</a></td><td>Nyköping</td><td>Nyköping</td><td>3</td><td>90</td><td>12 110</td><td>135</td></tr>
-<tr class="even"><td>92</td><td><a href="https://www.homeq.se/lagenhet/240519" target="_blank" rel="noopener">Runebergsgatan 48 e</a> <span class="badge new">NEW</span></td><td>Nyköping</td><td>Nyköping</td><td>3</td><td>82</td><td>11 421</td><td>139</td></tr>
+<tr class="even"><td>92</td><td><a href="https://www.homeq.se/lagenhet/240519" target="_blank" rel="noopener">Runebergsgatan 48 e</a></td><td>Nyköping</td><td>Nyköping</td><td>3</td><td>82</td><td>11 421</td><td>139</td></tr>
 <tr class="odd"><td>93</td><td><a href="https://www.homeq.se/lagenhet/231615" target="_blank" rel="noopener">Runebergsgatan 48 g</a></td><td>Nyköping</td><td>Nyköping</td><td>3</td><td>90</td><td>12 676</td><td>141</td></tr>
 <tr class="even"><td>94</td><td><a href="https://www.homeq.se/lagenhet/240408" target="_blank" rel="noopener">Fröjas väg 7</a></td><td>Nynäshamn</td><td>Nynäshamn</td><td>3</td><td>79</td><td>11 182</td><td>142</td></tr>
-<tr class="odd"><td>95</td><td><a href="https://www.homeq.se/lagenhet/240663" target="_blank" rel="noopener">Fröjas väg 9 B</a> <span class="badge new">NEW</span></td><td>Nynäshamn</td><td>Nynäshamn</td><td>1</td><td>40</td><td>7 089</td><td>177</td></tr>
-<tr class="even"><td>96</td><td><a href="https://www.homeq.se/lagenhet/240694" target="_blank" rel="noopener">Fröjas väg 9 B</a> <span class="badge new">NEW</span></td><td>Nynäshamn</td><td>Nynäshamn</td><td>2</td><td>67</td><td>9 715</td><td>145</td></tr>
+<tr class="odd"><td>95</td><td><a href="https://www.homeq.se/lagenhet/240663" target="_blank" rel="noopener">Fröjas väg 9 B</a></td><td>Nynäshamn</td><td>Nynäshamn</td><td>1</td><td>40</td><td>7 089</td><td>177</td></tr>
+<tr class="even"><td>96</td><td><a href="https://www.homeq.se/lagenhet/240694" target="_blank" rel="noopener">Fröjas väg 9 B</a></td><td>Nynäshamn</td><td>Nynäshamn</td><td>2</td><td>67</td><td>9 715</td><td>145</td></tr>
 <tr class="odd"><td>97</td><td><a href="https://www.homeq.se/lagenhet/239543" target="_blank" rel="noopener">Heimdalsvägen 22</a></td><td>Nynäshamn</td><td>Nynäshamn</td><td>2</td><td>55</td><td>8 061</td><td>147</td></tr>
 <tr class="even"><td>98</td><td><a href="https://www.homeq.se/lagenhet/229897" target="_blank" rel="noopener">Marknadsgatan 7</a></td><td>Figeholm</td><td>Oskarshamn</td><td>2</td><td>64</td><td>6 581</td><td>103</td></tr>
 <tr class="odd"><td>99</td><td><a href="https://www.homeq.se/lagenhet/224087" target="_blank" rel="noopener">Ficksjövägen 8</a></td><td>Fårbo</td><td>Oskarshamn</td><td>3</td><td>73</td><td>8 660</td><td>119</td></tr>
@@ -288,11 +307,11 @@
 <tr class="odd"><td>125</td><td><a href="https://www.homeq.se/lagenhet/238859" target="_blank" rel="noopener">Fru Lovisas Gata 9</a></td><td>Skellefteå</td><td>Skellefteå</td><td>2</td><td>49</td><td>6 997</td><td>143</td></tr>
 <tr class="even"><td>126</td><td><a href="https://www.homeq.se/lagenhet/238485" target="_blank" rel="noopener">Lars Olofs Gata 11</a></td><td>Skövde</td><td>Skövde</td><td>2</td><td>71</td><td>10 051</td><td>142</td></tr>
 <tr class="odd"><td>127</td><td><a href="https://www.homeq.se/lagenhet/238483" target="_blank" rel="noopener">Pilvägen 3 C</a></td><td>Skövde</td><td>Skövde</td><td>3</td><td>80</td><td>10 671</td><td>133</td></tr>
-<tr class="even"><td>128</td><td><a href="https://www.homeq.se/lagenhet/240780" target="_blank" rel="noopener">Pilvägen 3 I</a> <span class="badge new">NEW</span></td><td>Skövde</td><td>Skövde</td><td>1</td><td>38</td><td>6 150</td><td>160</td></tr>
+<tr class="even"><td>128</td><td><a href="https://www.homeq.se/lagenhet/240780" target="_blank" rel="noopener">Pilvägen 3 I</a></td><td>Skövde</td><td>Skövde</td><td>1</td><td>38</td><td>6 150</td><td>160</td></tr>
 <tr class="odd"><td>129</td><td><a href="https://www.homeq.se/lagenhet/238482" target="_blank" rel="noopener">Pilvägen 3 I</a></td><td>Skövde</td><td>Skövde</td><td>2</td><td>60</td><td>8 600</td><td>143</td></tr>
 <tr class="even"><td>130</td><td><a href="https://www.homeq.se/lagenhet/233503" target="_blank" rel="noopener">Västervikstorget 2</a></td><td>Strängnäs</td><td>Strängnäs</td><td>3</td><td>105</td><td>15 780</td><td>150</td></tr>
-<tr class="odd"><td>131</td><td><a href="https://www.homeq.se/lagenhet/226231" target="_blank" rel="noopener">Axvägen 13</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2</td><td>52</td><td>8 224</td><td>158</td></tr>
-<tr class="even"><td>132</td><td><a href="https://www.homeq.se/lagenhet/231506" target="_blank" rel="noopener">Axvägen 13</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2</td><td>52</td><td>8 223</td><td>158</td></tr>
+<tr class="odd"><td>131</td><td><a href="https://www.homeq.se/lagenhet/231506" target="_blank" rel="noopener">Axvägen 13</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2</td><td>52</td><td>8 223</td><td>158</td></tr>
+<tr class="even"><td>132</td><td><a href="https://www.homeq.se/lagenhet/226231" target="_blank" rel="noopener">Axvägen 13</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2</td><td>52</td><td>8 224</td><td>158</td></tr>
 <tr class="odd"><td>133</td><td><a href="https://www.homeq.se/lagenhet/239799" target="_blank" rel="noopener">Axvägen 13</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2</td><td>52</td><td>8 374</td><td>161</td></tr>
 <tr class="even"><td>134</td><td><a href="https://www.homeq.se/lagenhet/233085" target="_blank" rel="noopener">Axvägen 17</a></td><td>Sundsvall</td><td>Sundsvall</td><td>1</td><td>52</td><td>7 887</td><td>152</td></tr>
 <tr class="odd"><td>135</td><td><a href="https://www.homeq.se/lagenhet/231512" target="_blank" rel="noopener">Axvägen 17</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2</td><td>51</td><td>8 148</td><td>160</td></tr>
@@ -349,9 +368,9 @@
 <tr class="even"><td>186</td><td><a href="https://www.homeq.se/lagenhet/240418" target="_blank" rel="noopener">Västra Bergsgatan 2</a></td><td>Tranås</td><td>Tranås</td><td>3</td><td>68</td><td>7 033</td><td>103</td></tr>
 <tr class="odd"><td>187</td><td><a href="https://www.homeq.se/lagenhet/240413" target="_blank" rel="noopener">Västra Bergsgatan 4</a></td><td>Tranås</td><td>Tranås</td><td>2</td><td>53</td><td>5 671</td><td>107</td></tr>
 <tr class="even"><td>188</td><td><a href="https://www.homeq.se/lagenhet/240415" target="_blank" rel="noopener">Västra Bergsgatan 4</a></td><td>Tranås</td><td>Tranås</td><td>2</td><td>52</td><td>7 166</td><td>136</td></tr>
-<tr class="odd"><td>189</td><td><a href="https://www.homeq.se/lagenhet/230865" target="_blank" rel="noopener">Västra Bergsgatan 6</a></td><td>Tranås</td><td>Tranås</td><td>1</td><td>27</td><td>3 105</td><td>115</td></tr>
-<tr class="even"><td>190</td><td><a href="https://www.homeq.se/lagenhet/240409" target="_blank" rel="noopener">Västra Bergsgatan 6</a></td><td>Tranås</td><td>Tranås</td><td>1</td><td>27</td><td>3 446</td><td>128</td></tr>
-<tr class="odd"><td>191</td><td><a href="https://www.homeq.se/lagenhet/240638" target="_blank" rel="noopener">Västra Bergsgatan 7 B</a> <span class="badge new">NEW</span></td><td>Tranås</td><td>Tranås</td><td>2</td><td>50</td><td>5 586</td><td>111</td></tr>
+<tr class="odd"><td>189</td><td><a href="https://www.homeq.se/lagenhet/240409" target="_blank" rel="noopener">Västra Bergsgatan 6</a></td><td>Tranås</td><td>Tranås</td><td>1</td><td>27</td><td>3 446</td><td>128</td></tr>
+<tr class="even"><td>190</td><td><a href="https://www.homeq.se/lagenhet/230865" target="_blank" rel="noopener">Västra Bergsgatan 6</a></td><td>Tranås</td><td>Tranås</td><td>1</td><td>27</td><td>3 105</td><td>115</td></tr>
+<tr class="odd"><td>191</td><td><a href="https://www.homeq.se/lagenhet/240638" target="_blank" rel="noopener">Västra Bergsgatan 7 B</a></td><td>Tranås</td><td>Tranås</td><td>2</td><td>50</td><td>5 586</td><td>111</td></tr>
 <tr class="even"><td>192</td><td><a href="https://www.homeq.se/lagenhet/234086" target="_blank" rel="noopener">Jönköpingsvägen 13</a></td><td>Ulricehamn</td><td>Ulricehamn</td><td>2</td><td>53</td><td>8 763</td><td>165</td></tr>
 <tr class="odd"><td>193</td><td><a href="https://www.homeq.se/lagenhet/229249" target="_blank" rel="noopener">Lindängsvägen 19</a></td><td>Ulricehamn</td><td>Ulricehamn</td><td>2</td><td>60</td><td>8 016</td><td>134</td></tr>
 <tr class="even"><td>194</td><td><a href="https://www.homeq.se/lagenhet/239727" target="_blank" rel="noopener">Sanatorievägen 19 A</a></td><td>Ulricehamn</td><td>Ulricehamn</td><td>3</td><td>65</td><td>8 720</td><td>134</td></tr>
@@ -359,7 +378,7 @@
 <tr class="even"><td>196</td><td><a href="https://www.homeq.se/lagenhet/238624" target="_blank" rel="noopener">Bokgatan 5</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2</td><td>66</td><td>6 343</td><td>96</td></tr>
 <tr class="odd"><td>197</td><td><a href="https://www.homeq.se/lagenhet/233509" target="_blank" rel="noopener">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2</td><td>87</td><td>7 972</td><td>92</td></tr>
 <tr class="even"><td>198</td><td><a href="https://www.homeq.se/lagenhet/232238" target="_blank" rel="noopener">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>3</td><td>80</td><td>8 709</td><td>109</td></tr>
-<tr class="odd"><td>199</td><td><a href="https://www.homeq.se/lagenhet/240587" target="_blank" rel="noopener">Ollenicklas väg 29</a> <span class="badge new">NEW</span></td><td>Vänersborg</td><td>Vänersborg</td><td>2</td><td>66</td><td>8 360</td><td>127</td></tr>
+<tr class="odd"><td>199</td><td><a href="https://www.homeq.se/lagenhet/240587" target="_blank" rel="noopener">Ollenicklas väg 29</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2</td><td>66</td><td>8 360</td><td>127</td></tr>
 <tr class="even"><td>200</td><td><a href="https://www.homeq.se/lagenhet/240414" target="_blank" rel="noopener">Ollenicklas väg 37</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2</td><td>66</td><td>7 073</td><td>107</td></tr>
 <tr class="odd"><td>201</td><td><a href="https://www.homeq.se/lagenhet/232364" target="_blank" rel="noopener">Ollenicklas väg 37</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2</td><td>66</td><td>6 771</td><td>103</td></tr>
 <tr class="even"><td>202</td><td><a href="https://www.homeq.se/lagenhet/240253" target="_blank" rel="noopener">Sandmarksgatan 7</a></td><td>Vänersborg</td><td>Vänersborg</td><td>3</td><td>86</td><td>10 329</td><td>119</td></tr>
@@ -379,69 +398,201 @@
 <tr class="even"><td>216</td><td><a href="https://www.homeq.se/lagenhet/239097" target="_blank" rel="noopener">Järvstagatan 18 A</a></td><td>Örnsköldsvik</td><td>Örnsköldsvik</td><td>1</td><td>35</td><td>5 571</td><td>159</td></tr>
 <tr class="odd"><td>217</td><td><a href="https://www.homeq.se/lagenhet/239643" target="_blank" rel="noopener">Järvstagatan 18 H</a></td><td>Örnsköldsvik</td><td>Örnsköldsvik</td><td>2</td><td>43</td><td>6 637</td><td>154</td></tr>
 <tr class="even"><td>218</td><td><a href="https://www.homeq.se/lagenhet/239628" target="_blank" rel="noopener">Järvstagatan 18 M</a></td><td>Örnsköldsvik</td><td>Örnsköldsvik</td><td>2</td><td>43</td><td>6 637</td><td>154</td></tr>
-<tr class="odd"><td>219</td><td><a href="https://www.homeq.se/lagenhet/237054" target="_blank" rel="noopener">Järvstagatan 18 U</a></td><td>Örnsköldsvik</td><td>Örnsköldsvik</td><td>1</td><td>35</td><td>5 571</td><td>159</td></tr>
-          </tbody>
-        </table>
-        <div class="no-results" id="no-results">No apartments match your search.</div>
+<tr class="odd"><td>219</td><td><a href="https://www.homeq.se/lagenhet/237054" target="_blank" rel="noopener">Järvstagatan 18 U</a></td><td>Örnsköldsvik</td><td>Örnsköldsvik</td><td>1</td><td>35</td><td>5 571</td><td>159</td></tr></tbody>
+          </table>
+          <div class="no-results" id="apt-noresults">No apartments match your search.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── COMMERCIAL ── -->
+<div id="view-com" class="type-view">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="label">Available Premises</div>
+        <div class="value">56</div>
+        <div class="unit">active listings</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Total Area</div>
+        <div class="value">16 798</div>
+        <div class="unit">square metres</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Average Size</div>
+        <div class="value">300</div>
+        <div class="unit">sqm per premises</div>
+      </div>
+      <div class="stat-card">
+        <div class="label">Municipalities</div>
+        <div class="value">15</div>
+        <div class="unit">locations</div>
+      </div>
+    </div>
+
+    
+
+    <div class="diff-section">
+      <h2>Changes since last snapshot</h2>
+      <div class="diff-boxes"><div class="diff-box new-box"><h3>+56 new properties</h3><ul><li><a href="https://objektvision.se/Description/Index/248025959" target="_blank">Marumsgatan 7</a> — Skara, 493 sqm</li><li><a href="https://objektvision.se/Description/Index/268004982" target="_blank">Olins gränd 3</a> — Skara, 70 sqm</li><li><a href="https://objektvision.se/Description/Index/218039936" target="_blank">Färgaregatan 16A</a> — Alingsås, 310 sqm</li><li><a href="https://objektvision.se/Description/Index/258031003" target="_blank">Kungsgatan 14</a> — Alingsås, 127 sqm</li><li><a href="https://objektvision.se/Description/Index/258058083" target="_blank">Hamngatan 8B</a> — Oskarshamn, 267 sqm</li><li><a href="https://objektvision.se/Description/Index/258010461" target="_blank">Lövlundsvägen 18</a> — Nynäshamn, 1 050 sqm</li><li><a href="https://objektvision.se/Description/Index/258016580" target="_blank">Turebergsvägen 5</a> — Sollentuna, 60 sqm</li><li><a href="https://objektvision.se/Description/Index/238023886" target="_blank">Sankt Olofsgatan 1A</a> — Falköping, 473 sqm</li><li><a href="https://objektvision.se/Description/Index/238033120" target="_blank">Trädgårdsgatan 38</a> — Sundsvall, 200 sqm</li><li><a href="https://objektvision.se/Description/Index/238003723" target="_blank">Hagadalsvägen 15</a> — Fårbo, 197 sqm</li><li><a href="https://objektvision.se/Description/Index/238018694" target="_blank">Kungsgatan 24</a> — Alingsås, 280 sqm</li><li><a href="https://objektvision.se/Description/Index/238001873" target="_blank">Marumsgatan 9</a> — Skara, 311 sqm</li><li><a href="https://objektvision.se/Description/Index/228016342" target="_blank">Storgatan 49A</a> — Tranås, 123 sqm</li><li><a href="https://objektvision.se/Description/Index/228004879" target="_blank">Lilla Sveagatan 1</a> — Tranås, 226 sqm</li><li><a href="https://objektvision.se/Description/Index/248051321" target="_blank">Storgatan 7</a> — Falköping, 240 sqm</li><li><a href="https://objektvision.se/Description/Index/238034112" target="_blank">Trädgårdsgatan 38A</a> — Sundsvall, 110 sqm</li><li><a href="https://objektvision.se/Description/Index/258004670" target="_blank">Klostergatan 2</a> — Skara, 100 sqm</li><li><a href="https://objektvision.se/Description/Index/238034587" target="_blank">Lilla torget 1</a> — Oskarshamn, 446 sqm</li><li><a href="https://objektvision.se/Description/Index/258012844" target="_blank">Torget 4</a> — Staffanstorp, 234 sqm</li><li><a href="https://objektvision.se/Description/Index/238041851" target="_blank">Järnvägsgatan 4</a> — Falköping, 204 sqm</li><li><a href="https://objektvision.se/Description/Index/258023984" target="_blank">Kyrkbacken 1</a> — Karlskoga, 155 sqm</li><li><a href="https://objektvision.se/Description/Index/238044665" target="_blank">Köpmangatan 31</a> — Timrå, 1 244 sqm</li><li><a href="https://objektvision.se/Description/Index/258054728" target="_blank">Sankt Olofsgatan 5</a> — Falköping, 399 sqm</li><li><a href="https://objektvision.se/Description/Index/238045183" target="_blank">Västervikstorget 4</a> — Strängnäs, 560 sqm</li><li><a href="https://objektvision.se/Description/Index/268000869" target="_blank">Urbrinken 3</a> — Karlskoga, 200 sqm</li><li><a href="https://objektvision.se/Description/Index/238045567" target="_blank">Stora gatan 9</a> — Köping, 200 sqm</li><li><a href="https://objektvision.se/Description/Index/268009275" target="_blank">Storgatan 5</a> — Sundsvall, 102 sqm</li><li><a href="https://objektvision.se/Description/Index/238045733" target="_blank">Östra Långgatan 5</a> — Köping, 109 sqm</li><li><a href="https://objektvision.se/Description/Index/248025843" target="_blank">Marumsgatan 13</a> — Skara, 264 sqm</li><li><a href="https://objektvision.se/Description/Index/238045758" target="_blank">Stora gatan 4</a> — Köping, 363 sqm</li><li><a href="https://objektvision.se/Description/Index/248034269" target="_blank">Storgatan 31</a> — Sundsvall, 76 sqm</li><li><a href="https://objektvision.se/Description/Index/238045825" target="_blank">Eriksgatan 18</a> — Enköping, 591 sqm</li><li><a href="https://objektvision.se/Description/Index/248053685" target="_blank">Storgatan 7</a> — Sundsvall, 150 sqm</li><li><a href="https://objektvision.se/Description/Index/238045863" target="_blank">Storgatan 13</a> — Strängnäs, 280 sqm</li><li><a href="https://objektvision.se/Description/Index/258008960" target="_blank">Hamngatan 8</a> — Oskarshamn, 94 sqm</li><li><a href="https://objektvision.se/Description/Index/248000233" target="_blank">Storgatan 27</a> — Tranås, 458 sqm</li><li><a href="https://objektvision.se/Description/Index/258012593" target="_blank">Tullgatan 19</a> — Enköping, 818 sqm</li><li><a href="https://objektvision.se/Description/Index/248002795" target="_blank">Nygatan 24</a> — Tranås, 63 sqm</li><li><a href="https://objektvision.se/Description/Index/258016482" target="_blank">Turebergsvägen 1</a> — Sollentuna, 15 sqm</li><li><a href="https://objektvision.se/Description/Index/248002921" target="_blank">Storgatan 30</a> — Tranås, 300 sqm</li><li><a href="https://objektvision.se/Description/Index/258018535" target="_blank">Sjögatan 7</a> — Sundsvall, 185 sqm</li><li><a href="https://objektvision.se/Description/Index/248004347" target="_blank">Sankt Olofsgatan 5</a> — Falköping, 135 sqm</li><li><a href="https://objektvision.se/Description/Index/258028564" target="_blank">Torget 4</a> — Karlskoga, 283 sqm</li><li><a href="https://objektvision.se/Description/Index/248006406" target="_blank">Storgatan 36</a> — Falköping, 289 sqm</li><li><a href="https://objektvision.se/Description/Index/258039864" target="_blank">Riddaregatan 7A</a> — Ulricehamn, 540 sqm</li><li><a href="https://objektvision.se/Description/Index/248007203" target="_blank">Kungsgatan 10</a> — Alingsås, 388 sqm</li><li><a href="https://objektvision.se/Description/Index/258056156" target="_blank">Botvidsgatan 39</a> — Falköping, 555 sqm</li><li><a href="https://objektvision.se/Description/Index/248017375" target="_blank">Köpmangatan 31</a> — Timrå, 632 sqm</li><li><a href="https://objektvision.se/Description/Index/258059221" target="_blank">Järnvägsgatan 12A</a> — Falköping, 126 sqm</li><li><a href="https://objektvision.se/Description/Index/248017376" target="_blank">Köpmangatan 31</a> — Timrå, 462 sqm</li><li><a href="https://objektvision.se/Description/Index/268002787" target="_blank">Marknadsgatan 7</a> — Figeholm, 139 sqm</li><li><a href="https://objektvision.se/Description/Index/248019813" target="_blank">Kyrkbacken 1</a> — Karlskoga, 446 sqm</li><li><a href="https://objektvision.se/Description/Index/268009248" target="_blank">Strandgatan 4</a> — Sundsvall, 80 sqm</li><li><a href="https://objektvision.se/Description/Index/248020050" target="_blank">Flanaden 2</a> — Oskarshamn, 194 sqm</li><li><a href="https://objektvision.se/Description/Index/268009292" target="_blank">Tullgatan 7A</a> — Sundsvall, 32 sqm</li><li><a href="https://objektvision.se/Description/Index/218010042" target="_blank">Falkgatan 7</a> — Tranås, 350 sqm</li></ul></div></div>
+    </div>
+
+    <div class="table-section">
+      <h2>All Commercial Premises (56)</h2>
+      <div class="table-wrapper">
+        <div class="search-bar">
+          <input type="text" id="com-search" placeholder="Search by address, city or municipality…"
+                 oninput="filterTable('com-body', this.value, 'com-noresults')">
+        </div>
+        <div class="table-scroll">
+          <table class="com-table">
+            <thead><tr>
+              <th onclick="sortTable('com-body',0)">#</th>
+              <th onclick="sortTable('com-body',1)">Address</th>
+              <th onclick="sortTable('com-body',2)">City</th>
+              <th onclick="sortTable('com-body',3)">Municipality</th>
+              <th onclick="sortTable('com-body',4)">Size (sqm)</th>
+            </tr></thead>
+            <tbody id="com-body"><tr class="odd"><td>1</td><td><a href="https://objektvision.se/Description/Index/218039936" target="_blank" rel="noopener">Färgaregatan 16A</a> <span class="badge new">NEW</span></td><td>Alingsås</td><td>Alingsås</td><td>310</td></tr>
+<tr class="even"><td>2</td><td><a href="https://objektvision.se/Description/Index/248007203" target="_blank" rel="noopener">Kungsgatan 10</a> <span class="badge new">NEW</span></td><td>Alingsås</td><td>Alingsås</td><td>388</td></tr>
+<tr class="odd"><td>3</td><td><a href="https://objektvision.se/Description/Index/258031003" target="_blank" rel="noopener">Kungsgatan 14</a> <span class="badge new">NEW</span></td><td>Alingsås</td><td>Alingsås</td><td>127</td></tr>
+<tr class="even"><td>4</td><td><a href="https://objektvision.se/Description/Index/238018694" target="_blank" rel="noopener">Kungsgatan 24</a> <span class="badge new">NEW</span></td><td>Alingsås</td><td>Alingsås</td><td>280</td></tr>
+<tr class="odd"><td>5</td><td><a href="https://objektvision.se/Description/Index/238045825" target="_blank" rel="noopener">Eriksgatan 18</a> <span class="badge new">NEW</span></td><td>Enköping</td><td>Enköping</td><td>591</td></tr>
+<tr class="even"><td>6</td><td><a href="https://objektvision.se/Description/Index/258012593" target="_blank" rel="noopener">Tullgatan 19</a> <span class="badge new">NEW</span></td><td>Enköping</td><td>Enköping</td><td>818</td></tr>
+<tr class="odd"><td>7</td><td><a href="https://objektvision.se/Description/Index/258056156" target="_blank" rel="noopener">Botvidsgatan 39</a> <span class="badge new">NEW</span></td><td>Falköping</td><td>Falköping</td><td>555</td></tr>
+<tr class="even"><td>8</td><td><a href="https://objektvision.se/Description/Index/258059221" target="_blank" rel="noopener">Järnvägsgatan 12A</a> <span class="badge new">NEW</span></td><td>Falköping</td><td>Falköping</td><td>126</td></tr>
+<tr class="odd"><td>9</td><td><a href="https://objektvision.se/Description/Index/238041851" target="_blank" rel="noopener">Järnvägsgatan 4</a> <span class="badge new">NEW</span></td><td>Falköping</td><td>Falköping</td><td>204</td></tr>
+<tr class="even"><td>10</td><td><a href="https://objektvision.se/Description/Index/238023886" target="_blank" rel="noopener">Sankt Olofsgatan 1A</a> <span class="badge new">NEW</span></td><td>Falköping</td><td>Falköping</td><td>473</td></tr>
+<tr class="odd"><td>11</td><td><a href="https://objektvision.se/Description/Index/258054728" target="_blank" rel="noopener">Sankt Olofsgatan 5</a> <span class="badge new">NEW</span></td><td>Falköping</td><td>Falköping</td><td>399</td></tr>
+<tr class="even"><td>12</td><td><a href="https://objektvision.se/Description/Index/248004347" target="_blank" rel="noopener">Sankt Olofsgatan 5</a> <span class="badge new">NEW</span></td><td>Falköping</td><td>Falköping</td><td>135</td></tr>
+<tr class="odd"><td>13</td><td><a href="https://objektvision.se/Description/Index/248006406" target="_blank" rel="noopener">Storgatan 36</a> <span class="badge new">NEW</span></td><td>Falköping</td><td>Falköping</td><td>289</td></tr>
+<tr class="even"><td>14</td><td><a href="https://objektvision.se/Description/Index/248051321" target="_blank" rel="noopener">Storgatan 7</a> <span class="badge new">NEW</span></td><td>Falköping</td><td>Falköping</td><td>240</td></tr>
+<tr class="odd"><td>15</td><td><a href="https://objektvision.se/Description/Index/258023984" target="_blank" rel="noopener">Kyrkbacken 1</a> <span class="badge new">NEW</span></td><td>Karlskoga</td><td>Karlskoga</td><td>155</td></tr>
+<tr class="even"><td>16</td><td><a href="https://objektvision.se/Description/Index/248019813" target="_blank" rel="noopener">Kyrkbacken 1</a> <span class="badge new">NEW</span></td><td>Karlskoga</td><td>Karlskoga</td><td>446</td></tr>
+<tr class="odd"><td>17</td><td><a href="https://objektvision.se/Description/Index/258028564" target="_blank" rel="noopener">Torget 4</a> <span class="badge new">NEW</span></td><td>Karlskoga</td><td>Karlskoga</td><td>283</td></tr>
+<tr class="even"><td>18</td><td><a href="https://objektvision.se/Description/Index/268000869" target="_blank" rel="noopener">Urbrinken 3</a> <span class="badge new">NEW</span></td><td>Karlskoga</td><td>Karlskoga</td><td>200</td></tr>
+<tr class="odd"><td>19</td><td><a href="https://objektvision.se/Description/Index/238045758" target="_blank" rel="noopener">Stora gatan 4</a> <span class="badge new">NEW</span></td><td>Köping</td><td>Köping</td><td>363</td></tr>
+<tr class="even"><td>20</td><td><a href="https://objektvision.se/Description/Index/238045567" target="_blank" rel="noopener">Stora gatan 9</a> <span class="badge new">NEW</span></td><td>Köping</td><td>Köping</td><td>200</td></tr>
+<tr class="odd"><td>21</td><td><a href="https://objektvision.se/Description/Index/238045733" target="_blank" rel="noopener">Östra Långgatan 5</a> <span class="badge new">NEW</span></td><td>Köping</td><td>Köping</td><td>109</td></tr>
+<tr class="even"><td>22</td><td><a href="https://objektvision.se/Description/Index/258010461" target="_blank" rel="noopener">Lövlundsvägen 18</a> <span class="badge new">NEW</span></td><td>Nynäshamn</td><td>Nynäshamn</td><td>1 050</td></tr>
+<tr class="odd"><td>23</td><td><a href="https://objektvision.se/Description/Index/268002787" target="_blank" rel="noopener">Marknadsgatan 7</a> <span class="badge new">NEW</span></td><td>Figeholm</td><td>Oskarshamn</td><td>139</td></tr>
+<tr class="even"><td>24</td><td><a href="https://objektvision.se/Description/Index/238003723" target="_blank" rel="noopener">Hagadalsvägen 15</a> <span class="badge new">NEW</span></td><td>Fårbo</td><td>Oskarshamn</td><td>197</td></tr>
+<tr class="odd"><td>25</td><td><a href="https://objektvision.se/Description/Index/248020050" target="_blank" rel="noopener">Flanaden 2</a> <span class="badge new">NEW</span></td><td>Oskarshamn</td><td>Oskarshamn</td><td>194</td></tr>
+<tr class="even"><td>26</td><td><a href="https://objektvision.se/Description/Index/258008960" target="_blank" rel="noopener">Hamngatan 8</a> <span class="badge new">NEW</span></td><td>Oskarshamn</td><td>Oskarshamn</td><td>94</td></tr>
+<tr class="odd"><td>27</td><td><a href="https://objektvision.se/Description/Index/258058083" target="_blank" rel="noopener">Hamngatan 8B</a> <span class="badge new">NEW</span></td><td>Oskarshamn</td><td>Oskarshamn</td><td>267</td></tr>
+<tr class="even"><td>28</td><td><a href="https://objektvision.se/Description/Index/238034587" target="_blank" rel="noopener">Lilla torget 1</a> <span class="badge new">NEW</span></td><td>Oskarshamn</td><td>Oskarshamn</td><td>446</td></tr>
+<tr class="odd"><td>29</td><td><a href="https://objektvision.se/Description/Index/258004670" target="_blank" rel="noopener">Klostergatan 2</a> <span class="badge new">NEW</span></td><td>Skara</td><td>Skara</td><td>100</td></tr>
+<tr class="even"><td>30</td><td><a href="https://objektvision.se/Description/Index/248025843" target="_blank" rel="noopener">Marumsgatan 13</a> <span class="badge new">NEW</span></td><td>Skara</td><td>Skara</td><td>264</td></tr>
+<tr class="odd"><td>31</td><td><a href="https://objektvision.se/Description/Index/248025959" target="_blank" rel="noopener">Marumsgatan 7</a> <span class="badge new">NEW</span></td><td>Skara</td><td>Skara</td><td>493</td></tr>
+<tr class="even"><td>32</td><td><a href="https://objektvision.se/Description/Index/238001873" target="_blank" rel="noopener">Marumsgatan 9</a> <span class="badge new">NEW</span></td><td>Skara</td><td>Skara</td><td>311</td></tr>
+<tr class="odd"><td>33</td><td><a href="https://objektvision.se/Description/Index/268004982" target="_blank" rel="noopener">Olins gränd 3</a> <span class="badge new">NEW</span></td><td>Skara</td><td>Skara</td><td>70</td></tr>
+<tr class="even"><td>34</td><td><a href="https://objektvision.se/Description/Index/258016482" target="_blank" rel="noopener">Turebergsvägen 1</a> <span class="badge new">NEW</span></td><td>Sollentuna</td><td>Sollentuna</td><td>15</td></tr>
+<tr class="odd"><td>35</td><td><a href="https://objektvision.se/Description/Index/258016580" target="_blank" rel="noopener">Turebergsvägen 5</a> <span class="badge new">NEW</span></td><td>Sollentuna</td><td>Sollentuna</td><td>60</td></tr>
+<tr class="even"><td>36</td><td><a href="https://objektvision.se/Description/Index/258012844" target="_blank" rel="noopener">Torget 4</a> <span class="badge new">NEW</span></td><td>Staffanstorp</td><td>Staffanstorp</td><td>234</td></tr>
+<tr class="odd"><td>37</td><td><a href="https://objektvision.se/Description/Index/238045863" target="_blank" rel="noopener">Storgatan 13</a> <span class="badge new">NEW</span></td><td>Strängnäs</td><td>Strängnäs</td><td>280</td></tr>
+<tr class="even"><td>38</td><td><a href="https://objektvision.se/Description/Index/238045183" target="_blank" rel="noopener">Västervikstorget 4</a> <span class="badge new">NEW</span></td><td>Strängnäs</td><td>Strängnäs</td><td>560</td></tr>
+<tr class="odd"><td>39</td><td><a href="https://objektvision.se/Description/Index/258018535" target="_blank" rel="noopener">Sjögatan 7</a> <span class="badge new">NEW</span></td><td>Sundsvall</td><td>Sundsvall</td><td>185</td></tr>
+<tr class="even"><td>40</td><td><a href="https://objektvision.se/Description/Index/248034269" target="_blank" rel="noopener">Storgatan 31</a> <span class="badge new">NEW</span></td><td>Sundsvall</td><td>Sundsvall</td><td>76</td></tr>
+<tr class="odd"><td>41</td><td><a href="https://objektvision.se/Description/Index/268009275" target="_blank" rel="noopener">Storgatan 5</a> <span class="badge new">NEW</span></td><td>Sundsvall</td><td>Sundsvall</td><td>102</td></tr>
+<tr class="even"><td>42</td><td><a href="https://objektvision.se/Description/Index/248053685" target="_blank" rel="noopener">Storgatan 7</a> <span class="badge new">NEW</span></td><td>Sundsvall</td><td>Sundsvall</td><td>150</td></tr>
+<tr class="odd"><td>43</td><td><a href="https://objektvision.se/Description/Index/268009248" target="_blank" rel="noopener">Strandgatan 4</a> <span class="badge new">NEW</span></td><td>Sundsvall</td><td>Sundsvall</td><td>80</td></tr>
+<tr class="even"><td>44</td><td><a href="https://objektvision.se/Description/Index/238033120" target="_blank" rel="noopener">Trädgårdsgatan 38</a> <span class="badge new">NEW</span></td><td>Sundsvall</td><td>Sundsvall</td><td>200</td></tr>
+<tr class="odd"><td>45</td><td><a href="https://objektvision.se/Description/Index/238034112" target="_blank" rel="noopener">Trädgårdsgatan 38A</a> <span class="badge new">NEW</span></td><td>Sundsvall</td><td>Sundsvall</td><td>110</td></tr>
+<tr class="even"><td>46</td><td><a href="https://objektvision.se/Description/Index/268009292" target="_blank" rel="noopener">Tullgatan 7A</a> <span class="badge new">NEW</span></td><td>Sundsvall</td><td>Sundsvall</td><td>32</td></tr>
+<tr class="odd"><td>47</td><td><a href="https://objektvision.se/Description/Index/238044665" target="_blank" rel="noopener">Köpmangatan 31</a> <span class="badge new">NEW</span></td><td>Timrå</td><td>Timrå</td><td>1 244</td></tr>
+<tr class="even"><td>48</td><td><a href="https://objektvision.se/Description/Index/248017375" target="_blank" rel="noopener">Köpmangatan 31</a> <span class="badge new">NEW</span></td><td>Timrå</td><td>Timrå</td><td>632</td></tr>
+<tr class="odd"><td>49</td><td><a href="https://objektvision.se/Description/Index/248017376" target="_blank" rel="noopener">Köpmangatan 31</a> <span class="badge new">NEW</span></td><td>Timrå</td><td>Timrå</td><td>462</td></tr>
+<tr class="even"><td>50</td><td><a href="https://objektvision.se/Description/Index/218010042" target="_blank" rel="noopener">Falkgatan 7</a> <span class="badge new">NEW</span></td><td>Tranås</td><td>Tranås</td><td>350</td></tr>
+<tr class="odd"><td>51</td><td><a href="https://objektvision.se/Description/Index/228004879" target="_blank" rel="noopener">Lilla Sveagatan 1</a> <span class="badge new">NEW</span></td><td>Tranås</td><td>Tranås</td><td>226</td></tr>
+<tr class="even"><td>52</td><td><a href="https://objektvision.se/Description/Index/248002795" target="_blank" rel="noopener">Nygatan 24</a> <span class="badge new">NEW</span></td><td>Tranås</td><td>Tranås</td><td>63</td></tr>
+<tr class="odd"><td>53</td><td><a href="https://objektvision.se/Description/Index/248000233" target="_blank" rel="noopener">Storgatan 27</a> <span class="badge new">NEW</span></td><td>Tranås</td><td>Tranås</td><td>458</td></tr>
+<tr class="even"><td>54</td><td><a href="https://objektvision.se/Description/Index/248002921" target="_blank" rel="noopener">Storgatan 30</a> <span class="badge new">NEW</span></td><td>Tranås</td><td>Tranås</td><td>300</td></tr>
+<tr class="odd"><td>55</td><td><a href="https://objektvision.se/Description/Index/228016342" target="_blank" rel="noopener">Storgatan 49A</a> <span class="badge new">NEW</span></td><td>Tranås</td><td>Tranås</td><td>123</td></tr>
+<tr class="even"><td>56</td><td><a href="https://objektvision.se/Description/Index/258039864" target="_blank" rel="noopener">Riddaregatan 7A</a> <span class="badge new">NEW</span></td><td>Ulricehamn</td><td>Ulricehamn</td><td>540</td></tr></tbody>
+          </table>
+          <div class="no-results" id="com-noresults">No premises match your search.</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <footer>
-  Data from <a href="https://www.neobo.se/sv/ledigt/lagenheter/" target="_blank">neobo.se</a>
-  &bull; Databas: /home/rossi/neobo.db
+  Data from <a href="https://www.neobo.se/sv/ledigt/" target="_blank">neobo.se</a>
+  &bull; Apartments via HomeQ &bull; Commercial via Objektvision
+  &bull; <a href="changes.html">Change log</a>
 </footer>
 
 <script>
-  const labels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28"]; const counts=[199, 199, 199, 217, 217, 217, 217, 217, 219]; const rents=[131.1, 131.1, 131.1, 132.4, 132.4, 132.4, 132.4, 132.4, 132.3];
-  
-  const purple = 'rgba(109,45,135,0.85)';
-  const purpleLight = 'rgba(109,45,135,0.15)';
-  new Chart(document.getElementById('countChart'), {
-    type: 'line',
-    data: { labels, datasets: [{ label: 'Apartments', data: counts,
-      borderColor: purple, backgroundColor: purpleLight, tension: 0.3, fill: true, pointRadius: 4 }] },
-    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
-  });
-  new Chart(document.getElementById('rentChart'), {
-    type: 'line',
-    data: { labels, datasets: [{ label: 'SEK/sqm', data: rents,
-      borderColor: '#f59e0b', backgroundColor: 'rgba(245,158,11,0.1)', tension: 0.3, fill: true, pointRadius: 4 }] },
-    options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: false } } }
-  });
-  
-
-  let sortCol = -1, sortAsc = true;
-
-  function filterTable() {
-    const q = document.getElementById('search').value.toLowerCase();
-    const rows = document.querySelectorAll('#table-body tr');
-    let visible = 0;
-    rows.forEach(row => {
-      const show = row.textContent.toLowerCase().includes(q);
-      row.style.display = show ? '' : 'none';
-      if (show) visible++;
-    });
-    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+  // ── Type switcher ──
+  function switchType(type, btn) {
+    document.querySelectorAll('.type-view').forEach(v => v.classList.remove('active'));
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('view-' + type).classList.add('active');
+    btn.classList.add('active');
   }
 
-  function sortTable(col) {
-    const tbody = document.getElementById('table-body');
+  // ── Search ──
+  function filterTable(bodyId, q, noResultsId) {
+    q = q.toLowerCase();
+    const rows = document.querySelectorAll('#' + bodyId + ' tr');
+    let vis = 0;
+    rows.forEach(r => {
+      const show = r.textContent.toLowerCase().includes(q);
+      r.style.display = show ? '' : 'none';
+      if (show) vis++;
+    });
+    document.getElementById(noResultsId).style.display = vis === 0 ? 'block' : 'none';
+  }
+
+  // ── Sort ──
+  const sortState = {};
+  function sortTable(bodyId, col) {
+    const tbody = document.getElementById(bodyId);
     const rows  = Array.from(tbody.querySelectorAll('tr'));
-    const ths   = document.querySelectorAll('thead th');
-    if (sortCol === col) sortAsc = !sortAsc; else { sortCol = col; sortAsc = true; }
-    ths.forEach((h, i) => { h.classList.remove('asc','desc'); if (i===col) h.classList.add(sortAsc?'asc':'desc'); });
+    const key   = bodyId + '_' + col;
+    sortState[key] = !sortState[key];
+    const asc = sortState[key];
+    const ths = tbody.closest('table').querySelectorAll('thead th');
+    ths.forEach((h, i) => { h.classList.remove('asc','desc'); if (i===col) h.classList.add(asc?'asc':'desc'); });
     rows.sort((a, b) => {
       const at = a.cells[col]?.textContent.trim() ?? '';
       const bt = b.cells[col]?.textContent.trim() ?? '';
       const an = parseFloat(at.replace(/[^0-9.-]/g,''));
       const bn = parseFloat(bt.replace(/[^0-9.-]/g,''));
       const cmp = isNaN(an)||isNaN(bn) ? at.localeCompare(bt,'sv') : an-bn;
-      return sortAsc ? cmp : -cmp;
+      return asc ? cmp : -cmp;
     });
     rows.forEach(r => tbody.appendChild(r));
   }
+
+  // ── Charts ──
+  const aptLabels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28", "2026-02-28"]; const aptCounts=[200, 200, 200, 217, 217, 217, 217, 217, 219, 219]; const aptRents=[130.4, 130.4, 130.4, 132.4, 132.4, 132.4, 132.4, 132.4, 132.3, 132.3];
+  const comLabels=["2026-02-28"]; const comCounts=[56]; const comRents=[0];
+  const purple = 'rgba(109,45,135,0.8)';
+  const purpleL = 'rgba(109,45,135,0.15)';
+  const teal   = 'rgba(20,184,166,0.8)';
+  const tealL  = 'rgba(20,184,166,0.15)';
+
+  
+  new Chart(document.getElementById('aptCountChart'), {
+    type:'line', data:{ labels:aptLabels, datasets:[{ label:'Apartments',
+      data:aptCounts, borderColor:purple, backgroundColor:purpleL,
+      tension:0.3, fill:true, pointRadius:4 }]},
+    options:{ plugins:{ legend:{ display:false }}, scales:{ y:{ beginAtZero:false }}}
+  });
+  new Chart(document.getElementById('aptRentChart'), {
+    type:'line', data:{ labels:aptLabels, datasets:[{ label:'SEK/sqm',
+      data:aptRents, borderColor:'#f59e0b', backgroundColor:'rgba(245,158,11,0.1)',
+      tension:0.3, fill:true, pointRadius:4 }]},
+    options:{ plugins:{ legend:{ display:false }}, scales:{ y:{ beginAtZero:false }}}
+  });
+  
+
+  
 </script>
 </body>
 </html>
