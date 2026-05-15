@@ -136,7 +136,7 @@
 
 <header>
   <h1>Neobo &ndash; Change Log</h1>
-  <p>Generated 2026-05-15 19:07 &bull; 22 snapshots in database</p>
+  <p>Generated 2026-05-15 19:11 &bull; 23 snapshots in database</p>
 </header>
 
 <div class="tab-bar">
@@ -160,7 +160,7 @@
         <div class="card"><div class="lbl">Ever Seen</div><div class="val">562</div></div>
         <div class="card"><div class="lbl">Still Available</div><div class="val">205</div></div>
         <div class="card"><div class="lbl">No Longer Available</div><div class="val">357</div></div>
-        <div class="card"><div class="lbl">Total Snapshots</div><div class="val">22</div></div>
+        <div class="card"><div class="lbl">Total Snapshots</div><div class="val">23</div></div>
       </div>
       <div class="tl-wrap"><h3>Snapshot Timeline</h3><div class="tl"><div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-02-23</div><div class="tl-count">200</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-02-23</div><div class="tl-count">200</div></div>
@@ -183,6 +183,7 @@
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-04-08</div><div class="tl-count">199</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-04-13</div><div class="tl-count">202</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-04-21</div><div class="tl-count">220</div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-05-15</div><div class="tl-count">205</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-05-15</div><div class="tl-count">205</div></div></div></div>
       <div class="chart-card"><h3>Available apartments per snapshot</h3>
         <canvas id="aptOvChart" height="80"></canvas></div>
@@ -193,7 +194,7 @@
         <div class="card"><div class="lbl">Ever Seen</div><div class="val">64</div></div>
         <div class="card"><div class="lbl">Still Available</div><div class="val">56</div></div>
         <div class="card"><div class="lbl">No Longer Available</div><div class="val">8</div></div>
-        <div class="card"><div class="lbl">Total Snapshots</div><div class="val">22</div></div>
+        <div class="card"><div class="lbl">Total Snapshots</div><div class="val">23</div></div>
       </div>
       <div class="tl-wrap"><h3>Snapshot Timeline</h3><div class="tl"><div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-02-23</div><div class="tl-count">0</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-02-23</div><div class="tl-count">0</div></div>
@@ -216,6 +217,7 @@
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-04-08</div><div class="tl-count">56</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-04-13</div><div class="tl-count">56</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-04-21</div><div class="tl-count">57</div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-05-15</div><div class="tl-count">56</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-05-15</div><div class="tl-count">56</div></div></div></div>
       <div class="chart-card"><h3>Available commercial premises per snapshot</h3>
         <canvas id="comOvChart" height="80"></canvas></div>
@@ -225,6 +227,26 @@
   <!-- ── CHANGES ── -->
   <div class="tab-panel" id="tab-changes">
     <div id="ch-apt" class="type-view active">
+        <div class="diff-card" id="apt-snap-23">
+          <div class="diff-header" onclick="toggleCard(this)">
+            <div class="diff-title">
+              <span class="snap-badge">Snapshot #23</span>
+              15 May 2026 17:11
+            </div>
+            <div class="diff-meta">
+              <span class="pill new-pill" title="New">+0</span>
+              <span class="pill rem-pill" title="Removed">−0</span>
+              <span class="pill chg-pill" title="Rent changes">~0</span>
+              <span class="total-count">205 total (<span class="neu">±0</span>)</span>
+              <span class="chevron">▾</span>
+            </div>
+          </div>
+          <div class="diff-body open">
+            <p class="compared-to">Compared to snapshot #22 (15 May 2026 17:07)</p>
+            <div class="sub-section new-section empty"><h4>No new properties</h4></div><div class="sub-section rem-section empty"><h4>No removed properties</h4></div><div class="sub-section chg-section empty"><h4>No rent changes</h4></div>
+          </div>
+        </div>
+
         <div class="diff-card" id="apt-snap-22">
           <div class="diff-header" onclick="toggleCard(this)">
             <div class="diff-title">
@@ -645,6 +667,26 @@
           </div>
         </div></div>
     <div id="ch-com" class="type-view">
+        <div class="diff-card" id="com-snap-23">
+          <div class="diff-header" onclick="toggleCard(this)">
+            <div class="diff-title">
+              <span class="snap-badge">Snapshot #23</span>
+              15 May 2026 17:11
+            </div>
+            <div class="diff-meta">
+              <span class="pill new-pill" title="New">+0</span>
+              <span class="pill rem-pill" title="Removed">−0</span>
+              
+              <span class="total-count">56 total (<span class="neu">±0</span>)</span>
+              <span class="chevron">▾</span>
+            </div>
+          </div>
+          <div class="diff-body open">
+            <p class="compared-to">Compared to snapshot #22 (15 May 2026 17:07)</p>
+            <div class="sub-section new-section empty"><h4>No new properties</h4></div><div class="sub-section rem-section empty"><h4>No removed properties</h4></div>
+          </div>
+        </div>
+
         <div class="diff-card" id="com-snap-22">
           <div class="diff-header" onclick="toggleCard(this)">
             <div class="diff-title">
@@ -1785,8 +1827,8 @@
   atFilter('at-com-body','at-com-search','at-com-status','at-com-count');
 
   // Charts
-  const aptOvLabels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28", "2026-02-28", "2026-03-02", "2026-03-03", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-23", "2026-03-27", "2026-04-01", "2026-04-08", "2026-04-13", "2026-04-21", "2026-05-15"]; const aptOvCounts=[200, 200, 200, 217, 217, 217, 217, 217, 219, 219, 217, 218, 216, 200, 188, 182, 0, 186, 199, 202, 220, 205];
-  const comOvLabels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28", "2026-02-28", "2026-03-02", "2026-03-03", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-23", "2026-03-27", "2026-04-01", "2026-04-08", "2026-04-13", "2026-04-21", "2026-05-15"]; const comOvCounts=[0, 0, 0, 0, 0, 0, 0, 0, 0, 56, 56, 56, 54, 54, 54, 54, 56, 56, 56, 56, 57, 56];
+  const aptOvLabels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28", "2026-02-28", "2026-03-02", "2026-03-03", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-23", "2026-03-27", "2026-04-01", "2026-04-08", "2026-04-13", "2026-04-21", "2026-05-15", "2026-05-15"]; const aptOvCounts=[200, 200, 200, 217, 217, 217, 217, 217, 219, 219, 217, 218, 216, 200, 188, 182, 0, 186, 199, 202, 220, 205, 205];
+  const comOvLabels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28", "2026-02-28", "2026-03-02", "2026-03-03", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-23", "2026-03-27", "2026-04-01", "2026-04-08", "2026-04-13", "2026-04-21", "2026-05-15", "2026-05-15"]; const comOvCounts=[0, 0, 0, 0, 0, 0, 0, 0, 0, 56, 56, 56, 54, 54, 54, 54, 56, 56, 56, 56, 57, 56, 56];
   const purple = 'rgba(109,45,135,0.75)';
   const teal   = 'rgba(20,184,166,0.75)';
 
