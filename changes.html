@@ -136,7 +136,7 @@
 
 <header>
   <h1>Neobo &ndash; Change Log</h1>
-  <p>Generated 2026-10-27 08:00 &bull; 40 snapshots in database</p>
+  <p>Generated 2026-10-27 14:38 &bull; 41 snapshots in database</p>
 </header>
 
 <div class="tab-bar">
@@ -156,11 +156,11 @@
   <div class="tab-panel active" id="tab-overview">
     <div id="ov-apt" class="type-view active">
       <div class="cards">
-        <div class="card"><div class="lbl">Currently Available</div><div class="val">231</div></div>
-        <div class="card"><div class="lbl">Ever Seen</div><div class="val">1088</div></div>
-        <div class="card"><div class="lbl">Still Available</div><div class="val">231</div></div>
-        <div class="card"><div class="lbl">No Longer Available</div><div class="val">857</div></div>
-        <div class="card"><div class="lbl">Total Snapshots</div><div class="val">40</div></div>
+        <div class="card"><div class="lbl">Currently Available</div><div class="val">230</div></div>
+        <div class="card"><div class="lbl">Ever Seen</div><div class="val">1089</div></div>
+        <div class="card"><div class="lbl">Still Available</div><div class="val">230</div></div>
+        <div class="card"><div class="lbl">No Longer Available</div><div class="val">859</div></div>
+        <div class="card"><div class="lbl">Total Snapshots</div><div class="val">41</div></div>
       </div>
       <div class="tl-wrap"><h3>Snapshot Timeline</h3><div class="tl"><div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-02-23</div><div class="tl-count">200</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-02-23</div><div class="tl-count">200</div></div>
@@ -201,7 +201,8 @@
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-24</div><div class="tl-count">231</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-25</div><div class="tl-count">231</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-26</div><div class="tl-count">230</div></div>
-<div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-27</div><div class="tl-count">231</div></div></div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-27</div><div class="tl-count">231</div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-27</div><div class="tl-count">230</div></div></div></div>
       <div class="chart-card"><h3>Available apartments per snapshot</h3>
         <canvas id="aptOvChart" height="80"></canvas></div>
     </div>
@@ -211,7 +212,7 @@
         <div class="card"><div class="lbl">Ever Seen</div><div class="val">75</div></div>
         <div class="card"><div class="lbl">Still Available</div><div class="val">56</div></div>
         <div class="card"><div class="lbl">No Longer Available</div><div class="val">19</div></div>
-        <div class="card"><div class="lbl">Total Snapshots</div><div class="val">40</div></div>
+        <div class="card"><div class="lbl">Total Snapshots</div><div class="val">41</div></div>
       </div>
       <div class="tl-wrap"><h3>Snapshot Timeline</h3><div class="tl"><div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-02-23</div><div class="tl-count">0</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-02-23</div><div class="tl-count">0</div></div>
@@ -252,6 +253,7 @@
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-24</div><div class="tl-count">56</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-25</div><div class="tl-count">56</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-26</div><div class="tl-count">56</div></div>
+<div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-27</div><div class="tl-count">56</div></div>
 <div class="tl-item"><div class="tl-dot"></div><div class="tl-label">2026-10-27</div><div class="tl-count">56</div></div></div></div>
       <div class="chart-card"><h3>Available commercial premises per snapshot</h3>
         <canvas id="comOvChart" height="80"></canvas></div>
@@ -261,6 +263,26 @@
   <!-- ── CHANGES ── -->
   <div class="tab-panel" id="tab-changes">
     <div id="ch-apt" class="type-view active">
+        <div class="diff-card" id="apt-snap-41">
+          <div class="diff-header" onclick="toggleCard(this)">
+            <div class="diff-title">
+              <span class="snap-badge">Snapshot #41</span>
+              27 Oct 2026 13:38
+            </div>
+            <div class="diff-meta">
+              <span class="pill new-pill" title="New">+3</span>
+              <span class="pill rem-pill" title="Removed">−4</span>
+              <span class="pill chg-pill" title="Rent changes">~2</span>
+              <span class="total-count">230 total (<span class="neg">-1</span>)</span>
+              <span class="chevron">▾</span>
+            </div>
+          </div>
+          <div class="diff-body open">
+            <p class="compared-to">Compared to snapshot #40 (27 Oct 2026 07:00)</p>
+            <div class="sub-section new-section"><h4>+3 new</h4><div class="table-scroll"><table><thead><tr><th>Address</th><th>City</th><th>Municipality</th><th>Rooms</th><th>sqm</th><th>Rent</th></tr></thead><tbody><tr><td><a href="https://www.homeq.se/lagenhet/289488" target="_blank">Västra Grevilligatan 10</a></td><td>Mariestad</td><td>Mariestad</td><td>3.0</td><td>93</td><td>10 894</td></tr><tr><td><a href="https://www.homeq.se/lagenhet/289500" target="_blank">Pilvägen 3 A</a></td><td>Skövde</td><td>Skövde</td><td>2.0</td><td>60</td><td>8 600</td></tr><tr><td><a href="https://www.homeq.se/lagenhet/289474" target="_blank">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2.0</td><td>56</td><td>6 149</td></tr></tbody></table></div></div><div class="sub-section rem-section"><h4>−4 removed</h4><div class="table-scroll"><table><thead><tr><th>Address</th><th>City</th><th>Municipality</th><th>Rooms</th><th>sqm</th><th>Rent</th></tr></thead><tbody><tr><td>Kolsvagatan 2 B</td><td>Köping</td><td>Köping</td><td>2.0</td><td>66</td><td>9 278</td></tr><tr><td>Runebergsgatan 44 G</td><td>Nyköping</td><td>Nyköping</td><td>3.0</td><td>61</td><td>10 059</td></tr><tr><td>Pilvägen 3 H</td><td>Skövde</td><td>Skövde</td><td>2.0</td><td>60</td><td>8 715</td></tr><tr><td>Fridhemsgatan 40 A</td><td>Sundsvall</td><td>Sundsvall</td><td>4.0</td><td>73</td><td>10 230</td></tr></tbody></table></div></div><div class="sub-section chg-section"><h4>2 rent changes</h4><div class="table-scroll"><table><thead><tr><th>Address</th><th>City</th><th>Municipality</th><th>sqm</th><th>Previous</th><th>New</th><th>Change</th></tr></thead><tbody><tr><td><a href="https://www.homeq.se/lagenhet/285431" target="_blank">Östra Långgatan 5</a></td><td>Köping</td><td>Köping</td><td>124</td><td>10 108</td><td>11 108</td><td class="pos">+1 000 (+9.9%)</td></tr><tr><td><a href="https://www.homeq.se/lagenhet/250980" target="_blank">Kringelvägen 8B</a></td><td>Växjö</td><td>Växjö</td><td>54</td><td>7 945</td><td>0</td><td class="neg">-7 945 (-100.0%)</td></tr></tbody></table></div></div>
+          </div>
+        </div>
+
         <div class="diff-card" id="apt-snap-40">
           <div class="diff-header" onclick="toggleCard(this)">
             <div class="diff-title">
@@ -1041,6 +1063,26 @@
           </div>
         </div></div>
     <div id="ch-com" class="type-view">
+        <div class="diff-card" id="com-snap-41">
+          <div class="diff-header" onclick="toggleCard(this)">
+            <div class="diff-title">
+              <span class="snap-badge">Snapshot #41</span>
+              27 Oct 2026 13:38
+            </div>
+            <div class="diff-meta">
+              <span class="pill new-pill" title="New">+0</span>
+              <span class="pill rem-pill" title="Removed">−0</span>
+              
+              <span class="total-count">56 total (<span class="neu">±0</span>)</span>
+              <span class="chevron">▾</span>
+            </div>
+          </div>
+          <div class="diff-body open">
+            <p class="compared-to">Compared to snapshot #40 (27 Oct 2026 07:00)</p>
+            <div class="sub-section new-section empty"><h4>No new properties</h4></div><div class="sub-section rem-section empty"><h4>No removed properties</h4></div>
+          </div>
+        </div>
+
         <div class="diff-card" id="com-snap-40">
           <div class="diff-header" onclick="toggleCard(this)">
             <div class="diff-title">
@@ -2120,7 +2162,7 @@
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/261038" target="_blank">Humlegårdsgatan 4 B</a></td><td>Köping</td><td>Köping</td><td>1.0</td><td>39</td><td>5 499</td><td>2026-06-07</td><td>2026-06-07</td></tr>
 <tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/278453" target="_blank">Kolsvagatan 2 A</a></td><td>Köping</td><td>Köping</td><td>2.0</td><td>62</td><td>5 928</td><td>2026-09-14</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/250197" target="_blank">Kolsvagatan 2 A</a></td><td>Köping</td><td>Köping</td><td>1.0</td><td>26</td><td>4 012</td><td>2026-04-13</td><td>2026-04-21</td></tr>
-<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/285404" target="_blank">Kolsvagatan 2 B</a></td><td>Köping</td><td>Köping</td><td>2.0</td><td>66</td><td>6 368 – 9 278</td><td>2026-10-16</td><td>2026-10-27</td></tr>
+<tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/285404" target="_blank">Kolsvagatan 2 B</a></td><td>Köping</td><td>Köping</td><td>2.0</td><td>66</td><td>6 368 – 9 278</td><td>2026-10-16</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/232565" target="_blank">Kolsvagatan 2 B</a></td><td>Köping</td><td>Köping</td><td>2.0</td><td>66</td><td>7 679</td><td>2026-02-23</td><td>2026-05-15</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/241176" target="_blank">Mariebergsgatan 11 A</a></td><td>Köping</td><td>Köping</td><td>2.0</td><td>57</td><td>5 998 – 8 491</td><td>2026-03-03</td><td>2026-04-21</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/261185" target="_blank">Mariebergsgatan 11 B</a></td><td>Köping</td><td>Köping</td><td>2.0</td><td>58</td><td>6 679</td><td>2026-06-07</td><td>2026-06-07</td></tr>
@@ -2164,7 +2206,7 @@
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/240039" target="_blank">Östra Långgatan 17 A</a></td><td>Köping</td><td>Köping</td><td>4.0</td><td>94</td><td>12 516</td><td>2026-02-25</td><td>2026-03-05</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/284542" target="_blank">Östra Långgatan 17 B</a></td><td>Köping</td><td>Köping</td><td>4.0</td><td>93</td><td>10 651</td><td>2026-10-06</td><td>2026-10-23</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/257643" target="_blank">Östra Långgatan 17 B</a></td><td>Köping</td><td>Köping</td><td>5.0</td><td>152</td><td>11 412</td><td>2026-06-07</td><td>2026-06-07</td></tr>
-<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/285431" target="_blank">Östra Långgatan 5</a></td><td>Köping</td><td>Köping</td><td>4.0</td><td>124</td><td>10 108</td><td>2026-10-16</td><td>2026-10-27</td></tr>
+<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/285431" target="_blank">Östra Långgatan 5</a></td><td>Köping</td><td>Köping</td><td>4.0</td><td>124</td><td>10 108 – 11 108</td><td>2026-10-16</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/283122" target="_blank">Monvägen 31</a></td><td>Gråbo</td><td>Lerum</td><td>2.0</td><td>62</td><td>7 688</td><td>2026-09-30</td><td>2026-10-06</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/247564" target="_blank">Monvägen 37</a></td><td>Gråbo</td><td>Lerum</td><td>2.0</td><td>62</td><td>7 688</td><td>2026-04-01</td><td>2026-04-01</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/283128" target="_blank">Monvägen 89</a></td><td>Gråbo</td><td>Lerum</td><td>2.0</td><td>62</td><td>7 688</td><td>2026-09-30</td><td>2026-10-06</td></tr>
@@ -2191,7 +2233,7 @@
 <tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/280444" target="_blank">Stockholmsvägen 83</a></td><td>Mariestad</td><td>Mariestad</td><td>2.0</td><td>60</td><td>6 799</td><td>2026-09-14</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/284377" target="_blank">Viktoriagatan 10</a></td><td>Mariestad</td><td>Mariestad</td><td>3.0</td><td>75</td><td>7 637</td><td>2026-10-06</td><td>2026-10-26</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/240783" target="_blank">Västra Grevilligatan 10</a></td><td>Mariestad</td><td>Mariestad</td><td>2.0</td><td>65</td><td>6 464</td><td>2026-02-28</td><td>2026-03-05</td></tr>
-<tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/256320" target="_blank">Västra Grevilligatan 10</a></td><td>Mariestad</td><td>Mariestad</td><td>3.0</td><td>93</td><td>10 894</td><td>2026-04-08</td><td>2026-06-07</td></tr>
+<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/289488" target="_blank">Västra Grevilligatan 10</a></td><td>Mariestad</td><td>Mariestad</td><td>3.0</td><td>93</td><td>10 894</td><td>2026-04-08</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/240224" target="_blank">Agneshögsgatan 31 A</a></td><td>Motala</td><td>Motala</td><td>4.0</td><td>108</td><td>13 030</td><td>2026-02-25</td><td>2026-03-12</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/287097" target="_blank">Agneshögsgatan 31 A</a></td><td>Motala</td><td>Motala</td><td>4.0</td><td>108</td><td>9 256 – 9 547</td><td>2026-04-13</td><td>2026-10-16</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/240521" target="_blank">Agneshögsgatan 31 A</a></td><td>Motala</td><td>Motala</td><td>4.0</td><td>81</td><td>10 452 – 10 739</td><td>2026-02-28</td><td>2026-04-21</td></tr>
@@ -2294,7 +2336,7 @@
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/251824" target="_blank">Runebergsgatan 44 G</a></td><td>Nyköping</td><td>Nyköping</td><td>1.0</td><td>29</td><td>6 144</td><td>2026-04-21</td><td>2026-05-15</td></tr>
 <tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/289196" target="_blank">Runebergsgatan 44 G</a></td><td>Nyköping</td><td>Nyköping</td><td>3.0</td><td>61</td><td>10 059</td><td>2026-10-27</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/257594" target="_blank">Runebergsgatan 44 G</a></td><td>Nyköping</td><td>Nyköping</td><td>3.0</td><td>69</td><td>10 817</td><td>2026-06-07</td><td>2026-08-12</td></tr>
-<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/273366" target="_blank">Runebergsgatan 44 G</a></td><td>Nyköping</td><td>Nyköping</td><td>3.0</td><td>61</td><td>10 059</td><td>2026-08-12</td><td>2026-10-27</td></tr>
+<tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/273366" target="_blank">Runebergsgatan 44 G</a></td><td>Nyköping</td><td>Nyköping</td><td>3.0</td><td>61</td><td>10 059</td><td>2026-08-12</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/248072" target="_blank">Runebergsgatan 46 a</a></td><td>Nyköping</td><td>Nyköping</td><td>3.0</td><td>82</td><td>12 137</td><td>2026-04-01</td><td>2026-08-12</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/246628" target="_blank">Runebergsgatan 46 a</a></td><td>Nyköping</td><td>Nyköping</td><td>3.0</td><td>82</td><td>9 735</td><td>2026-02-23</td><td>2026-04-21</td></tr>
 <tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/283688" target="_blank">Runebergsgatan 46 c</a></td><td>Nyköping</td><td>Nyköping</td><td>3.0</td><td>82</td><td>9 612</td><td>2026-07-23</td><td>2026-10-27</td></tr>
@@ -2473,13 +2515,14 @@
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/265694" target="_blank">Fru Lovisas Gata 9</a></td><td>Skellefteå</td><td>Skellefteå</td><td>2.0</td><td>45</td><td>7 201</td><td>2026-07-23</td><td>2026-09-15</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/277992" target="_blank">Klagstorpsvägen 26 B</a></td><td>Skövde</td><td>Skövde</td><td>4.0</td><td>82</td><td>11 406</td><td>2026-06-07</td><td>2026-10-06</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/243364" target="_blank">Lars Olofs Gata 11</a></td><td>Skövde</td><td>Skövde</td><td>2.0</td><td>71</td><td>10 051</td><td>2026-02-23</td><td>2026-03-12</td></tr>
+<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/289500" target="_blank">Pilvägen 3 A</a></td><td>Skövde</td><td>Skövde</td><td>2.0</td><td>60</td><td>8 600</td><td>2026-10-27</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/256317" target="_blank">Pilvägen 3 A</a></td><td>Skövde</td><td>Skövde</td><td>1.0</td><td>38</td><td>6 149</td><td>2026-05-15</td><td>2026-05-15</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/261652" target="_blank">Pilvägen 3 C</a></td><td>Skövde</td><td>Skövde</td><td>3.0</td><td>80</td><td>10 717</td><td>2026-06-07</td><td>2026-07-23</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/246438" target="_blank">Pilvägen 3 C</a></td><td>Skövde</td><td>Skövde</td><td>3.0</td><td>80</td><td>10 671</td><td>2026-02-23</td><td>2026-04-01</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/270387" target="_blank">Pilvägen 3 E</a></td><td>Skövde</td><td>Skövde</td><td>1.0</td><td>37</td><td>6 071</td><td>2026-07-23</td><td>2026-07-23</td></tr>
 <tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/286264" target="_blank">Pilvägen 3 E</a></td><td>Skövde</td><td>Skövde</td><td>3.0</td><td>80</td><td>10 671</td><td>2026-10-16</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/277916" target="_blank">Pilvägen 3 G</a></td><td>Skövde</td><td>Skövde</td><td>3.0</td><td>80</td><td>10 785</td><td>2026-09-14</td><td>2026-10-06</td></tr>
-<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/277917" target="_blank">Pilvägen 3 H</a></td><td>Skövde</td><td>Skövde</td><td>2.0</td><td>60</td><td>8 715</td><td>2026-09-14</td><td>2026-10-27</td></tr>
+<tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/277917" target="_blank">Pilvägen 3 H</a></td><td>Skövde</td><td>Skövde</td><td>2.0</td><td>60</td><td>8 715</td><td>2026-09-14</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/238482" target="_blank">Pilvägen 3 I</a></td><td>Skövde</td><td>Skövde</td><td>2.0</td><td>60</td><td>8 600</td><td>2026-02-23</td><td>2026-03-19</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/261654" target="_blank">Pilvägen 3 I</a></td><td>Skövde</td><td>Skövde</td><td>1.0</td><td>38</td><td>6 149</td><td>2026-06-07</td><td>2026-06-07</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/240780" target="_blank">Pilvägen 3 I</a></td><td>Skövde</td><td>Skövde</td><td>1.0</td><td>38</td><td>6 150</td><td>2026-02-28</td><td>2026-03-23</td></tr>
@@ -2548,7 +2591,7 @@
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/249306" target="_blank">Fridhemsgatan 1 B</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2.0</td><td>50</td><td>7 295</td><td>2026-04-13</td><td>2026-04-13</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/245303" target="_blank">Fridhemsgatan 40 A</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2.0</td><td>64</td><td>9 780</td><td>2026-03-19</td><td>2026-04-08</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/248750" target="_blank">Fridhemsgatan 40 A</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2.0</td><td>64</td><td>10 591</td><td>2026-04-08</td><td>2026-06-07</td></tr>
-<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/282017" target="_blank">Fridhemsgatan 40 A</a></td><td>Sundsvall</td><td>Sundsvall</td><td>4.0</td><td>73</td><td>10 230</td><td>2026-09-30</td><td>2026-10-27</td></tr>
+<tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/282017" target="_blank">Fridhemsgatan 40 A</a></td><td>Sundsvall</td><td>Sundsvall</td><td>4.0</td><td>73</td><td>10 230</td><td>2026-09-30</td><td>2026-10-27</td></tr>
 <tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/288004" target="_blank">Fridhemsgatan 40 A</a></td><td>Sundsvall</td><td>Sundsvall</td><td>1.0</td><td>25</td><td>3 923</td><td>2026-08-08</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/240035" target="_blank">Fridhemsgatan 40 B</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2.0</td><td>56</td><td>8 840 – 9 139</td><td>2026-02-25</td><td>2026-03-05</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/288001" target="_blank">Fridhemsgatan 40 B</a></td><td>Sundsvall</td><td>Sundsvall</td><td>2.0</td><td>56</td><td>9 572</td><td>2026-10-22</td><td>2026-10-26</td></tr>
@@ -2806,7 +2849,7 @@
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/247886" target="_blank">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>1.0</td><td>52</td><td>6 157</td><td>2026-04-01</td><td>2026-04-01</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/241408" target="_blank">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>1.0</td><td>27</td><td>3 711 – 4 196</td><td>2026-03-03</td><td>2026-03-05</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/254085" target="_blank">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2.0</td><td>79</td><td>7 632</td><td>2026-05-15</td><td>2026-05-15</td></tr>
-<tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/234758" target="_blank">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2.0</td><td>56</td><td>6 149</td><td>2026-02-23</td><td>2026-02-25</td></tr>
+<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/289474" target="_blank">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2.0</td><td>56</td><td>6 149</td><td>2026-02-23</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/233509" target="_blank">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>2.0</td><td>87</td><td>7 972</td><td>2026-02-23</td><td>2026-03-02</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/232238" target="_blank">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>3.0</td><td>80</td><td>8 709</td><td>2026-02-23</td><td>2026-02-28</td></tr>
 <tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/288498" target="_blank">Gasverksgatan 9B</a></td><td>Vänersborg</td><td>Vänersborg</td><td>1.0</td><td>30</td><td>3 859</td><td>2026-03-02</td><td>2026-10-27</td></tr>
@@ -2860,7 +2903,7 @@
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/254676" target="_blank">Kringelvägen 6B</a></td><td>Växjö</td><td>Växjö</td><td>2.0</td><td>61</td><td>8 400</td><td>2026-05-15</td><td>2026-06-07</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/256849" target="_blank">Kringelvägen 8A</a></td><td>Växjö</td><td>Växjö</td><td>3.0</td><td>77</td><td>8 386</td><td>2026-05-15</td><td>2026-05-15</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/251132" target="_blank">Kringelvägen 8B</a></td><td>Växjö</td><td>Växjö</td><td>3.0</td><td>77</td><td>8 479</td><td>2026-04-21</td><td>2026-04-21</td></tr>
-<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/250980" target="_blank">Kringelvägen 8B</a></td><td>Växjö</td><td>Växjö</td><td>2.0</td><td>54</td><td>7 945</td><td>2026-04-21</td><td>2026-10-27</td></tr>
+<tr class="status-active"><td><span class="dot status-active"></span>Available</td><td><a href="https://www.homeq.se/lagenhet/250980" target="_blank">Kringelvägen 8B</a></td><td>Växjö</td><td>Växjö</td><td>2.0</td><td>54</td><td>0 – 7 945</td><td>2026-04-21</td><td>2026-10-27</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/230954" target="_blank">Kringelvägen 8B</a></td><td>Växjö</td><td>Växjö</td><td>2.0</td><td>54</td><td>7 297</td><td>2026-02-23</td><td>2026-03-02</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/270153" target="_blank">Kungsvägen 102A</a></td><td>Växjö</td><td>Växjö</td><td>1.0</td><td>35</td><td>4 828</td><td>2026-07-23</td><td>2026-07-23</td></tr>
 <tr class="status-gone"><td><span class="dot status-gone"></span>Gone</td><td><a href="https://www.homeq.se/lagenhet/241483" target="_blank">Kungsvägen 102B</a></td><td>Växjö</td><td>Växjö</td><td>4.0</td><td>93</td><td>11 550</td><td>2026-03-03</td><td>2026-04-13</td></tr>
@@ -3078,8 +3121,8 @@
   atFilter('at-com-body','at-com-search','at-com-status','at-com-count');
 
   // Charts
-  const aptOvLabels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28", "2026-02-28", "2026-03-02", "2026-03-03", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-23", "2026-03-27", "2026-04-01", "2026-04-08", "2026-04-13", "2026-04-21", "2026-05-15", "2026-05-15", "2026-06-07", "2026-07-23", "2026-08-08", "2026-08-11", "2026-08-12", "2026-09-14", "2026-09-15", "2026-09-30", "2026-10-01", "2026-10-06", "2026-10-16", "2026-10-22", "2026-10-23", "2026-10-24", "2026-10-25", "2026-10-26", "2026-10-27"]; const aptOvCounts=[200, 200, 200, 217, 217, 217, 217, 217, 219, 219, 217, 218, 216, 200, 188, 182, 0, 186, 199, 202, 220, 205, 205, 221, 207, 200, 196, 201, 231, 232, 239, 238, 228, 232, 227, 226, 231, 231, 230, 231];
-  const comOvLabels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28", "2026-02-28", "2026-03-02", "2026-03-03", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-23", "2026-03-27", "2026-04-01", "2026-04-08", "2026-04-13", "2026-04-21", "2026-05-15", "2026-05-15", "2026-06-07", "2026-07-23", "2026-08-08", "2026-08-11", "2026-08-12", "2026-09-14", "2026-09-15", "2026-09-30", "2026-10-01", "2026-10-06", "2026-10-16", "2026-10-22", "2026-10-23", "2026-10-24", "2026-10-25", "2026-10-26", "2026-10-27"]; const comOvCounts=[0, 0, 0, 0, 0, 0, 0, 0, 0, 56, 56, 56, 54, 54, 54, 54, 56, 56, 56, 56, 57, 56, 56, 57, 60, 60, 60, 60, 57, 57, 58, 58, 57, 56, 56, 56, 56, 56, 56, 56];
+  const aptOvLabels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28", "2026-02-28", "2026-03-02", "2026-03-03", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-23", "2026-03-27", "2026-04-01", "2026-04-08", "2026-04-13", "2026-04-21", "2026-05-15", "2026-05-15", "2026-06-07", "2026-07-23", "2026-08-08", "2026-08-11", "2026-08-12", "2026-09-14", "2026-09-15", "2026-09-30", "2026-10-01", "2026-10-06", "2026-10-16", "2026-10-22", "2026-10-23", "2026-10-24", "2026-10-25", "2026-10-26", "2026-10-27", "2026-10-27"]; const aptOvCounts=[200, 200, 200, 217, 217, 217, 217, 217, 219, 219, 217, 218, 216, 200, 188, 182, 0, 186, 199, 202, 220, 205, 205, 221, 207, 200, 196, 201, 231, 232, 239, 238, 228, 232, 227, 226, 231, 231, 230, 231, 230];
+  const comOvLabels=["2026-02-23", "2026-02-23", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-25", "2026-02-28", "2026-02-28", "2026-03-02", "2026-03-03", "2026-03-05", "2026-03-12", "2026-03-19", "2026-03-23", "2026-03-27", "2026-04-01", "2026-04-08", "2026-04-13", "2026-04-21", "2026-05-15", "2026-05-15", "2026-06-07", "2026-07-23", "2026-08-08", "2026-08-11", "2026-08-12", "2026-09-14", "2026-09-15", "2026-09-30", "2026-10-01", "2026-10-06", "2026-10-16", "2026-10-22", "2026-10-23", "2026-10-24", "2026-10-25", "2026-10-26", "2026-10-27", "2026-10-27"]; const comOvCounts=[0, 0, 0, 0, 0, 0, 0, 0, 0, 56, 56, 56, 54, 54, 54, 54, 56, 56, 56, 56, 57, 56, 56, 57, 60, 60, 60, 60, 57, 57, 58, 58, 57, 56, 56, 56, 56, 56, 56, 56, 56];
   const purple = 'rgba(109,45,135,0.75)';
   const teal   = 'rgba(20,184,166,0.75)';
 
